@@ -33,7 +33,7 @@ public class IngredientSectionModelMapper {
     }
 
     private static String convertAmount(Amount amount) {
-        return amount != null ? String.format("%s%s", amount.getValue(), amount.getUnit()) : null;
+        return amount != null ? String.format("%s %s", amount.getValue(), amount.getUnit()) : null;
     }
 
     public static List<IngredientSectionModel> convertHops(List<Hop> hops) {
