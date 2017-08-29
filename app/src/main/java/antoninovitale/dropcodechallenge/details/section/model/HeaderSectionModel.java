@@ -6,11 +6,11 @@ import antoninovitale.dropcodechallenge.util.Utils;
  * Created by antoninovitale on 28/08/2017.
  */
 public class HeaderSectionModel {
-    private String name;
+    private final String name;
 
-    private String abv;
+    private final String abv;
 
-    private String description;
+    private final String description;
 
     public HeaderSectionModel(String name, double abv, String description) {
         this.name = name;

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:ellipsize="end"
-        android:lines="1"
+        android:maxLines="2"
         android:textAppearance="?attr/textAppearanceListItem"
         android:textStyle="bold"
         tools:text="PUNK API"/>
@@ -27,11 +27,12 @@
 
     <antoninovitale.dropcodechallenge.util.ExpandableTextView
         android:id="@+id/description"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
+        android:gravity="left|center"
         android:textSize="13sp"
-        app:maxLinesToCollapse="3"
+        app:maxLinesToCollapse="5"
         app:viewLessText="@string/view_less"
         app:viewMoreText="@string/view_more"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus accumsan mattis risus, sed ornare erat bibendum in. Ut at sagittis ligula. Pellentesque elementum urna sed elit rhoncus convallis. Nulla tristique eros a mauris molestie lacinia. Praesent ac arcu fringilla justo dapibus consectetur. Suspendisse laoreet nulla ut lectus facilisis hendrerit. Duis eget purus porttitor, suscipit velit non, dictum nunc."/>

@@ -34,7 +34,7 @@ public class BeerProvider extends ViewModel {
 
     public void loadBeers() {
         setRefreshing(true);
-        Call<List<Beer>> call = PunkService.getApiClient().getRandomBeer();
+        Call<List<Beer>> call = PunkService.getApiClient().getBeers(null, null);
         call.enqueue(new Callback<List<Beer>>() {
             @Override
             public void onResponse(@NonNull Call<List<Beer>> call, @NonNull Response<List<Beer>>

@@ -1,6 +1,7 @@
 package antoninovitale.dropcodechallenge.list.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,14 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemViewHolder
         holder.name.setText(beer.getName());
         holder.abv.setText(Utils.formatPercentage(beer.getAbv()));
         holder.tagline.setText(beer.getTagline());
-
+        String label = Utils.getAttributeLabel(beer.getAbv(), beer.getIbu(), holder
+                .attributeStrong, holder.attributeBitter);
+        if (!TextUtils.isEmpty(label)) {
+            holder.attribute.setVisibility(View.VISIBLE);
+            holder.attribute.setText(label);
+        } else {
+            holder.attribute.setVisibility(View.GONE);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

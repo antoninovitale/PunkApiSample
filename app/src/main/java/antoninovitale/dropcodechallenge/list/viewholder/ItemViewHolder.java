@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import antoninovitale.dropcodechallenge.R;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -24,6 +25,15 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.tagline)
     public TextView tagline;
+
+    @BindView(R.id.attribute)
+    public TextView attribute;
+
+    @BindString(R.string.strong)
+    public String attributeStrong;
+
+    @BindString(R.string.bitter)
+    public String attributeBitter;
 
     public ItemViewHolder(View view) {
         super(view);

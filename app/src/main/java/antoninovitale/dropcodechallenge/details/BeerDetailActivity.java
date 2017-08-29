@@ -6,13 +6,10 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 
 import antoninovitale.dropcodechallenge.R;
@@ -20,6 +17,7 @@ import antoninovitale.dropcodechallenge.api.model.Beer;
 import antoninovitale.dropcodechallenge.details.viewmodel.BeerDetailProvider;
 import antoninovitale.dropcodechallenge.list.BeerListActivity;
 import antoninovitale.dropcodechallenge.util.MyImageLoader;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -33,9 +31,6 @@ import butterknife.Unbinder;
 public class BeerDetailActivity extends AppCompatActivity implements LifecycleRegistryOwner {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
 
     @BindView(R.id.imgCover)
     ImageView imgCover;
@@ -68,14 +63,6 @@ public class BeerDetailActivity extends AppCompatActivity implements LifecycleRe
             MyImageLoader.getInstance().loadImage(this, beer.getImageUrl(), imgCover);
         }
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
         // (e.g. when rotating the screen from portrait to landscape).
@@ -94,6 +81,7 @@ public class BeerDetailActivity extends AppCompatActivity implements LifecycleRe
                     .commit();
         }
     }
+
 
     @Override
     protected void onDestroy() {

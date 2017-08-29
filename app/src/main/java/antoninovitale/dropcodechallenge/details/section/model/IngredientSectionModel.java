@@ -4,13 +4,16 @@ package antoninovitale.dropcodechallenge.details.section.model;
  * Created by antoninovitale on 29/08/2017.
  */
 public class IngredientSectionModel {
-    private String name;
+    private final String name;
 
-    private String amount;
+    private final String amount;
 
-    public IngredientSectionModel(String name, String amount) {
+    private final String add;
+
+    public IngredientSectionModel(String name, String amount, String add) {
         this.name = name;
         this.amount = amount;
+        this.add = add;
     }
 
     public String getName() {
@@ -19,6 +22,10 @@ public class IngredientSectionModel {
 
     public String getAmount() {
         return amount;
+    }
+
+    public String getAdd() {
+        return add;
     }
 
 }

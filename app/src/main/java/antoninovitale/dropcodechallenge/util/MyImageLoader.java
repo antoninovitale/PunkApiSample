@@ -34,7 +34,8 @@ public class MyImageLoader {
                 .fallback(R.drawable.ic_placeholder)
                 .error(R.drawable.ic_placeholder)
                 .crossFade()
-                .fitCenter().into(view);
+                .fitCenter()
+                .into(view);
     }
 
 }

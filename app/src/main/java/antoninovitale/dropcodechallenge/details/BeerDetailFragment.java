@@ -11,10 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import antoninovitale.dropcodechallenge.R;
 import antoninovitale.dropcodechallenge.api.model.Beer;
+import antoninovitale.dropcodechallenge.api.model.Ingredients;
 import antoninovitale.dropcodechallenge.details.section.HeaderSection;
+import antoninovitale.dropcodechallenge.details.section.IngredientSection;
 import antoninovitale.dropcodechallenge.details.section.model.HeaderSectionModel;
+import antoninovitale.dropcodechallenge.details.section.model.IngredientSectionModel;
+import antoninovitale.dropcodechallenge.details.section.model.mapper.IngredientSectionModelMapper;
 import antoninovitale.dropcodechallenge.details.viewmodel.BeerDetailProvider;
 import antoninovitale.dropcodechallenge.list.BeerListActivity;
 import antoninovitale.dropcodechallenge.list.viewmodel.BeerProvider;
@@ -79,6 +85,25 @@ public class BeerDetailFragment extends LifecycleFragment {
             HeaderSection headerSection = new HeaderSection(headerSectionModel);
             sectionAdapter.addSection(HeaderSection.TAG, headerSection);
             sectionAdapter.notifyItemRangeInserted(0, 1);
+
+            Ingredients ingredients = beer.getIngredients();
+            if (ingredients != null) {
+                List<IngredientSectionModel> malts = IngredientSectionModelMapper
+                        .convertMalts(ingredients.getMalt());
+                IngredientSection maltSection = new IngredientSection(getString(R.string
+                        .malt_section_title), malts);
+                maltSection.setVisible(malts != null && !malts.isEmpty());
+                sectionAdapter.addSection(IngredientSection.MALT_TAG, maltSection);
+                sectionAdapter.notifyItemRangeInserted(1, 1);
+
+                List<IngredientSectionModel> hops = IngredientSectionModelMapper
+                        .convertHops(ingredients.getHops());
+                IngredientSection hopSection = new IngredientSection(getString(R.string
+                        .hop_section_title), hops);
+                hopSection.setVisible(hops != null && !hops.isEmpty());
+                sectionAdapter.addSection(IngredientSection.HOP_TAG, hopSection);
+                sectionAdapter.notifyItemRangeInserted(2, 1);
+            }
         }
     }
 

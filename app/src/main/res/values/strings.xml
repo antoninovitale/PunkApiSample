@@ -12,5 +12,9 @@
     <string name="done">DONE</string>
     <string name="running">RUNNING</string>
     <string name="paused">PAUSED</string>
+    <string name="malt_section_title">Malts</string>
+    <string name="hop_section_title">Hops</string>
+    <string name="strong">strong</string>
+    <string name="bitter">bitter</string>
 
 </resources>
