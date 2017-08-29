@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textStyle="bold"
+        tools:text="PUNK API"/>
+
+    <TextView
+        android:id="@+id/abv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:textAppearance="?attr/textAppearanceListItem"
+        tools:text="5.8%"/>
+
+    <antoninovitale.dropcodechallenge.util.ExpandableTextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:textSize="13sp"
+        app:maxLinesToCollapse="3"
+        app:viewLessText="@string/view_less"
+        app:viewMoreText="@string/view_more"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus accumsan mattis risus, sed ornare erat bibendum in. Ut at sagittis ligula. Pellentesque elementum urna sed elit rhoncus convallis. Nulla tristique eros a mauris molestie lacinia. Praesent ac arcu fringilla justo dapibus consectetur. Suspendisse laoreet nulla ut lectus facilisis hendrerit. Duis eget purus porttitor, suscipit velit non, dictum nunc."/>
+
+</LinearLayout>

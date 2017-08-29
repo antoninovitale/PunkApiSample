@@ -1,0 +1,16 @@
+<resources>
+    <declare-styleable name="ExpandableTextView">
+        <attr name="maxLinesToCollapse" format="integer"/>
+        <attr name="viewMoreText" format="string"/>
+        <attr name="viewLessText" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="CountDownView">
+        <attr name="showHour" format="boolean"/>
+        <attr name="showMin" format="boolean"/>
+        <attr name="showSec" format="boolean"/>
+        <attr name="showMilli" format="boolean"/>
+        <attr name="numberColor" format="reference"/>
+        <attr name="unitColor" format="reference"/>
+    </declare-styleable>
+</resources>

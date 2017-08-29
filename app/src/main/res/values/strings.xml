@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">DropCodeChallenge</string>
+    <string name="title_beer_detail">Beer Detail</string>
+    <string name="generic_error">Ops! We are sorry, but something happened</string>
+    <string name="view_less">View Less</string>
+    <string name="view_more">View More</string>
+    <string name="milliseconds">ms</string>
+    <string name="minutes">m</string>
+    <string name="seconds">s</string>
+    <string name="hours">h</string>
+    <string name="idle">IDLE</string>
+    <string name="done">DONE</string>
+    <string name="running">RUNNING</string>
+    <string name="paused">PAUSED</string>
+
+</resources>
