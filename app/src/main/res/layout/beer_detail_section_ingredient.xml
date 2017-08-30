@@ -16,7 +16,7 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         tools:text="Extra Pale"/>
 
@@ -38,6 +38,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:focusable="false"
+        android:textSize="12sp"
+        android:textColor="@color/black"
         android:focusableInTouchMode="false"
         android:textOff="@string/idle"
         android:textOn="@string/done"/>

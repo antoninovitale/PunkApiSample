@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:gravity="left|center"
-        android:textColor="@color/black"
-        android:textSize="22sp"
+        android:textColor="@color/black_opacity_70"
+        android:textSize="18sp"
         android:textStyle="bold"
         tools:text="HEADER TITLE"/>
 

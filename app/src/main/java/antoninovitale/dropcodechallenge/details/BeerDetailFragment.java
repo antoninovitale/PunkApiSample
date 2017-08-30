@@ -16,11 +16,15 @@ import java.util.List;
 import antoninovitale.dropcodechallenge.R;
 import antoninovitale.dropcodechallenge.api.model.Beer;
 import antoninovitale.dropcodechallenge.api.model.Ingredients;
+import antoninovitale.dropcodechallenge.api.model.Method;
 import antoninovitale.dropcodechallenge.details.section.HeaderSection;
 import antoninovitale.dropcodechallenge.details.section.IngredientSection;
+import antoninovitale.dropcodechallenge.details.section.MethodSection;
 import antoninovitale.dropcodechallenge.details.section.model.HeaderSectionModel;
 import antoninovitale.dropcodechallenge.details.section.model.IngredientSectionModel;
+import antoninovitale.dropcodechallenge.details.section.model.MethodSectionModel;
 import antoninovitale.dropcodechallenge.details.section.model.mapper.IngredientSectionModelMapper;
+import antoninovitale.dropcodechallenge.details.section.model.mapper.MethodSectionModelMapper;
 import antoninovitale.dropcodechallenge.details.viewmodel.BeerDetailProvider;
 import antoninovitale.dropcodechallenge.list.BeerListActivity;
 import antoninovitale.dropcodechallenge.list.viewmodel.BeerProvider;
@@ -53,7 +57,7 @@ public class BeerDetailFragment extends LifecycleFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.beer_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_beer_detail, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         sectionAdapter = new SectionedRecyclerViewAdapter();
@@ -77,7 +81,7 @@ public class BeerDetailFragment extends LifecycleFragment {
         return rootView;
     }
 
-    //TODO setup sections
+    //TODO setup lists in presenter and sections later here
     private void setupSections(Beer beer) {
         if (beer != null) {
             HeaderSectionModel headerSectionModel = new HeaderSectionModel(beer.getName(), beer
@@ -103,6 +107,16 @@ public class BeerDetailFragment extends LifecycleFragment {
                 hopSection.setVisible(hops != null && !hops.isEmpty());
                 sectionAdapter.addSection(IngredientSection.HOP_TAG, hopSection);
                 sectionAdapter.notifyItemRangeInserted(2, 1);
+            }
+
+            Method method = beer.getMethod();
+            if (method != null) {
+                List<MethodSectionModel> methods = MethodSectionModelMapper.convertMethods(method);
+                MethodSection methodSection = new MethodSection(getString(R.string
+                        .method_section_title), methods);
+                methodSection.setVisible(methods != null && !methods.isEmpty());
+                sectionAdapter.addSection(MethodSection.TAG, methodSection);
+                sectionAdapter.notifyItemRangeInserted(3, 1);
             }
         }
     }

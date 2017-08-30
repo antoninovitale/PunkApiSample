@@ -32,7 +32,7 @@ public class IngredientSection extends StatelessSection {
 
     private static SectionParameters getSectionParameters() {
         return new SectionParameters.Builder(R.layout.beer_detail_section_ingredient)
-                .headerResourceId(R.layout.beer_detail_section_ingredient_header).build();
+                .headerResourceId(R.layout.simple_header).build();
     }
 
     @Override
