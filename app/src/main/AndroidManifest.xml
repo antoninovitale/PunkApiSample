@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".details.BeerDetailActivity"
+            android:name=".details.BeerDetailsActivity"
             android:label="@string/title_beer_detail"
             android:parentActivityName=".list.BeerListActivity"
             android:theme="@style/AppTheme.NoActionBar">

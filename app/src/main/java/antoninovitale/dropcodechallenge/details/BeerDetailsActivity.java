@@ -17,7 +17,6 @@ import antoninovitale.dropcodechallenge.api.model.Beer;
 import antoninovitale.dropcodechallenge.details.viewmodel.BeerDetailProvider;
 import antoninovitale.dropcodechallenge.list.BeerListActivity;
 import antoninovitale.dropcodechallenge.util.MyImageLoader;
-import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -28,7 +27,7 @@ import butterknife.Unbinder;
  * item details are presented side-by-side with a list of items
  * in a {@link BeerListActivity}.
  */
-public class BeerDetailActivity extends AppCompatActivity implements LifecycleRegistryOwner {
+public class BeerDetailsActivity extends AppCompatActivity implements LifecycleRegistryOwner {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -75,7 +74,7 @@ public class BeerDetailActivity extends AppCompatActivity implements LifecycleRe
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            BeerDetailFragment fragment = new BeerDetailFragment();
+            BeerDetailsFragment fragment = new BeerDetailsFragment();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.beer_detail_container, fragment)
                     .commit();

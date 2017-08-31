@@ -10,10 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import antoninovitale.dropcodechallenge.R;
-import antoninovitale.dropcodechallenge.api.model.Beer;
+import antoninovitale.dropcodechallenge.list.model.BeerListModel;
 import antoninovitale.dropcodechallenge.list.viewholder.ItemViewHolder;
 import antoninovitale.dropcodechallenge.util.MyImageLoader;
-import antoninovitale.dropcodechallenge.util.Utils;
 
 /**
  * Created by antoninovitale on 28/08/2017.
@@ -22,7 +21,7 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemViewHolder
 
     private final OnItemClickListener onItemClickListener;
 
-    private List<Beer> items;
+    private List<BeerListModel> items;
 
     public interface OnItemClickListener {
         void onClick(int position);
@@ -33,7 +32,7 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemViewHolder
         items = new ArrayList<>();
     }
 
-    public void setItems(List<Beer> items) {
+    public void setItems(List<BeerListModel> items) {
         this.items = items;
         this.notifyItemRangeChanged(0, items.size());
     }
@@ -47,15 +46,27 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemViewHolder
 
     @Override
     public void onBindViewHolder(final ItemViewHolder holder, int position) {
-        Beer beer = items.get(position);
+        BeerListModel beer = items.get(position);
         holder.itemView.setTag(beer);
         MyImageLoader.getInstance().loadImage(holder.itemView.getContext(), beer.getImageUrl(),
                 holder.img);
         holder.name.setText(beer.getName());
-        holder.abv.setText(Utils.formatPercentage(beer.getAbv()));
-        holder.tagline.setText(beer.getTagline());
-        String label = Utils.getAttributeLabel(beer.getAbv(), beer.getIbu(), holder
-                .attributeStrong, holder.attributeBitter);
+        holder.abv.setText(beer.getAbvPercentage());
+        holder.tagline.setText(beer.getTagLine());
+        String label = null;
+        switch (beer.getAttribute()) {
+            case STRONG:
+                label = holder.attributeStrong;
+                break;
+            case BITTER:
+                label = holder.attributeBitter;
+                break;
+            case STRONG_BITTER:
+                label = String.format("%s & %s", holder.attributeStrong, holder.attributeBitter);
+                break;
+            default:
+                break;
+        }
         if (!TextUtils.isEmpty(label)) {
             holder.attribute.setVisibility(View.VISIBLE);
             holder.attribute.setText(label);

@@ -32,17 +32,32 @@
         android:textStyle="normal"
         tools:text="5.3 kilograms"/>
 
-    <ToggleButton
+    <TextView
         android:id="@+id/status"
+        style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:layout_margin="@dimen/text_margin"
-        android:focusable="false"
-        android:textSize="12sp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/idle"
         android:textColor="@color/black"
-        android:focusableInTouchMode="false"
-        android:textOff="@string/idle"
-        android:textOn="@string/done"/>
+        android:textSize="12sp"/>
+
+    <!--<ToggleButton-->
+        <!--android:id="@+id/status"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="@dimen/text_margin"-->
+        <!--android:focusable="false"-->
+        <!--android:textSize="12sp"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:focusableInTouchMode="false"-->
+        <!--android:textOff="@string/idle"-->
+        <!--android:textOn="@string/done"/>-->
 
 
 </LinearLayout>

@@ -3,9 +3,9 @@ package antoninovitale.dropcodechallenge.details.section.viewholder;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import antoninovitale.dropcodechallenge.R;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -20,7 +20,13 @@ public class IngredientSectionViewHolder extends RecyclerView.ViewHolder {
     public TextView amount;
 
     @BindView(R.id.status)
-    public ToggleButton status;
+    public TextView status;
+
+    @BindString(R.string.idle)
+    public String idle;
+
+    @BindString(R.string.done)
+    public String done;
 
     public IngredientSectionViewHolder(View itemView) {
         super(itemView);

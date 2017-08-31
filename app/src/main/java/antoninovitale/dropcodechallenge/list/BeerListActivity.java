@@ -19,25 +19,28 @@ import android.view.View;
 
 import java.util.List;
 
-import antoninovitale.dropcodechallenge.details.BeerDetailActivity;
-import antoninovitale.dropcodechallenge.details.BeerDetailFragment;
 import antoninovitale.dropcodechallenge.R;
 import antoninovitale.dropcodechallenge.api.model.Beer;
+import antoninovitale.dropcodechallenge.details.BeerDetailsActivity;
+import antoninovitale.dropcodechallenge.details.BeerDetailsFragment;
 import antoninovitale.dropcodechallenge.list.adapter.ItemRecyclerViewAdapter;
+import antoninovitale.dropcodechallenge.list.model.BeerListModel;
 import antoninovitale.dropcodechallenge.list.viewmodel.BeerProvider;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
  * An activity representing a list of Beers. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link BeerDetailActivity} representing
+ * lead to a {@link BeerDetailsActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class BeerListActivity extends AppCompatActivity implements LifecycleRegistryOwner {
+public class BeerListActivity extends AppCompatActivity implements LifecycleRegistryOwner,
+        BeerListContract.View {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -62,6 +65,8 @@ public class BeerListActivity extends AppCompatActivity implements LifecycleRegi
 
     private BeerProvider viewModel;
 
+    private BeerListContract.Actions presenter;
+
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -73,32 +78,34 @@ public class BeerListActivity extends AppCompatActivity implements LifecycleRegi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beer_list);
         unbinder = ButterKnife.bind(this);
-        viewModel = ViewModelProviders.of(this).get(BeerProvider.class);
+        presenter = new BeerListPresenter(this);
         setSupportActionBar(toolbar);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                viewModel.loadBeers();
-            }
-        });
+        setupRecyclerView(beerList);
+        setupObservers();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                viewModel.loadBeers();
+                presenter.onRefresh();
             }
         });
 
-        setupRecyclerView(beerList);
+        if (beerDetailContainer != null) {
+            // The detail container view will be present only in the
+            // large-screen layouts (res/values-w900dp).
+            // If this view is present, then the
+            // activity should be in two-pane mode.
+            mTwoPane = true;
+        }
+    }
+
+    private void setupObservers() {
+        viewModel = ViewModelProviders.of(this).get(BeerProvider.class);
         viewModel.getBeers().observe(this, new Observer<List<Beer>>() {
 
             @Override
             public void onChanged(@Nullable List<Beer> beers) {
-                if (beers != null) {
-                    recyclerViewAdapter.setItems(beers);
-                } else {
-                    Snackbar.make(beerList, R.string.generic_error, Snackbar.LENGTH_SHORT).show();
-                }
+                presenter.onChanged(beers);
             }
 
         });
@@ -110,19 +117,16 @@ public class BeerListActivity extends AppCompatActivity implements LifecycleRegi
                 }
             }
         });
-        if (beerDetailContainer != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    private void showError() {
+        Snackbar.make(beerList, R.string.generic_error, Snackbar.LENGTH_SHORT).show();
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -133,17 +137,7 @@ public class BeerListActivity extends AppCompatActivity implements LifecycleRegi
 
             @Override
             public void onClick(int position) {
-                viewModel.setSelectedBeer(position);
-                if (mTwoPane) {
-                    BeerDetailFragment fragment = new BeerDetailFragment();
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.beer_detail_container, fragment)
-                            .commit();
-                } else {
-                    Intent intent = new Intent(BeerListActivity.this, BeerDetailActivity.class);
-                    intent.putExtra("beer", viewModel.getSelectedBeer().getValue());
-                    startActivity(intent);
-                }
+                presenter.onListItemClick(position);
             }
         });
         recyclerView.setAdapter(recyclerViewAdapter);
@@ -152,6 +146,40 @@ public class BeerListActivity extends AppCompatActivity implements LifecycleRegi
     @Override
     public LifecycleRegistry getLifecycle() {
         return mRegistry;
+    }
+
+    @OnClick(R.id.fab)
+    public void onFabClick() {
+        presenter.onFloatingButtonClick();
+    }
+
+    @Override
+    public void refreshList() {
+        viewModel.loadBeers();
+    }
+
+    @Override
+    public void setItems(List<BeerListModel> models) {
+        recyclerViewAdapter.setItems(models);
+    }
+
+    @Override
+    public void selectItem(int position) {
+        viewModel.setSelectedBeer(position);
+    }
+
+    @Override
+    public void navigateToDetails() {
+        if (mTwoPane) {
+            BeerDetailsFragment fragment = new BeerDetailsFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.beer_detail_container, fragment)
+                    .commit();
+        } else {
+            Intent intent = new Intent(BeerListActivity.this, BeerDetailsActivity.class);
+            intent.putExtra("beer", viewModel.getSelectedBeer().getValue());
+            startActivity(intent);
+        }
     }
 
 }
