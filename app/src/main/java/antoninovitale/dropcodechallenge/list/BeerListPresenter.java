@@ -31,6 +31,13 @@ class BeerListPresenter implements BeerListContract.Actions {
     }
 
     @Override
+    public void onChanged(Boolean value) {
+        if(value != null) {
+            view.setRefreshing(value);
+        }
+    }
+
+    @Override
     public void onListItemClick(int position) {
         view.selectItem(position);
         view.navigateToDetails();

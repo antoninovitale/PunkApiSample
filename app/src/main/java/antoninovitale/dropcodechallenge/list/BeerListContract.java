@@ -10,6 +10,8 @@ import antoninovitale.dropcodechallenge.list.model.BeerListModel;
  */
 interface BeerListContract {
     interface View {
+        void setRefreshing(boolean value);
+
         void refreshList();
 
         void setItems(List<BeerListModel> models);
@@ -25,6 +27,8 @@ interface BeerListContract {
         void onRefresh();
 
         void onChanged(List<Beer> beers);
+
+        void onChanged(Boolean value);
 
         void onListItemClick(int position);
     }

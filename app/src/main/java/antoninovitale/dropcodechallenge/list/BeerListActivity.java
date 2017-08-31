@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -112,9 +111,7 @@ public class BeerListActivity extends AppCompatActivity implements LifecycleRegi
         viewModel.getRefreshing().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
-                if (aBoolean != null) {
-                    swipeRefreshLayout.setRefreshing(aBoolean);
-                }
+                presenter.onChanged(aBoolean);
             }
         });
     }
@@ -123,10 +120,6 @@ public class BeerListActivity extends AppCompatActivity implements LifecycleRegi
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
-    }
-
-    private void showError() {
-        Snackbar.make(beerList, R.string.generic_error, Snackbar.LENGTH_SHORT).show();
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -151,6 +144,11 @@ public class BeerListActivity extends AppCompatActivity implements LifecycleRegi
     @OnClick(R.id.fab)
     public void onFabClick() {
         presenter.onFloatingButtonClick();
+    }
+
+    @Override
+    public void setRefreshing(boolean value) {
+        swipeRefreshLayout.setRefreshing(value);
     }
 
     @Override
