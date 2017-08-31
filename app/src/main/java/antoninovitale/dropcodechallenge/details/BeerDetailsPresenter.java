@@ -67,7 +67,7 @@ class BeerDetailsPresenter implements BeerDetailsContract.Actions {
                     case MALT:
                         model.setStatus(Status.DONE);
                         malts.set(positionInSection, model);
-                        view.notifyMaltSection(positionInSection);
+                        view.notifyMaltDone(positionInSection);
                         break;
                     case HOP:
                         checkHops(model, positionInSection);
@@ -104,7 +104,7 @@ class BeerDetailsPresenter implements BeerDetailsContract.Actions {
         if(canDo) {
             model.setStatus(Status.DONE);
             hops.set(positionInSection, model);
-            view.notifyHopSection(positionInSection);
+            view.notifyHopDone(positionInSection);
         }
     }
 

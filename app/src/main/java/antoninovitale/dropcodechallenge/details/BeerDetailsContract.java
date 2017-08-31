@@ -21,9 +21,9 @@ public interface BeerDetailsContract {
 
         void setupMethodSection(List<MethodSectionModel> methods);
 
-        void notifyMaltSection(int position);
+        void notifyMaltDone(int position);
 
-        void notifyHopSection(int position);
+        void notifyHopDone(int position);
     }
 
     interface Actions {

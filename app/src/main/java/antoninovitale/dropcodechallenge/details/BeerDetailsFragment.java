@@ -129,7 +129,7 @@ public class BeerDetailsFragment extends LifecycleFragment implements BeerDetail
     }
 
     @Override
-    public void notifyMaltSection(int position) {
+    public void notifyMaltDone(int position) {
         IngredientSection section = (IngredientSection) sectionAdapter.getSection
                 (IngredientSection.MALT_TAG);
         section.setItemStatus(position);
@@ -137,7 +137,7 @@ public class BeerDetailsFragment extends LifecycleFragment implements BeerDetail
     }
 
     @Override
-    public void notifyHopSection(int position) {
+    public void notifyHopDone(int position) {
         IngredientSection section = (IngredientSection) sectionAdapter.getSection
                 (IngredientSection.HOP_TAG);
         section.setItemStatus(position);
