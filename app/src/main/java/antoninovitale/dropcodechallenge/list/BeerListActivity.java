@@ -6,9 +6,8 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,8 +22,9 @@ import antoninovitale.dropcodechallenge.api.model.Beer;
 import antoninovitale.dropcodechallenge.details.BeerDetailsActivity;
 import antoninovitale.dropcodechallenge.details.BeerDetailsFragment;
 import antoninovitale.dropcodechallenge.list.adapter.ItemRecyclerViewAdapter;
-import antoninovitale.dropcodechallenge.list.model.BeerListModel;
-import antoninovitale.dropcodechallenge.list.viewmodel.BeerProvider;
+import antoninovitale.dropcodechallenge.list.model.IBeerListModel;
+import antoninovitale.dropcodechallenge.viewmodel.BeerProvider;
+import antoninovitale.dropcodechallenge.viewmodel.CurrentStatus;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -39,12 +39,9 @@ import butterknife.Unbinder;
  * item details side-by-side using two vertical panes.
  */
 public class BeerListActivity extends AppCompatActivity implements LifecycleRegistryOwner,
-        BeerListContract.View {
+        BeerListContract.View, ItemRecyclerViewAdapter.OnItemClickListener {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
 
     @Nullable
     @BindView(R.id.beer_detail_container)
@@ -80,7 +77,7 @@ public class BeerListActivity extends AppCompatActivity implements LifecycleRegi
         presenter = new BeerListPresenter(this);
         setSupportActionBar(toolbar);
 
-        setupRecyclerView(beerList);
+        setupRecyclerView();
         setupObservers();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -98,6 +95,13 @@ public class BeerListActivity extends AppCompatActivity implements LifecycleRegi
         }
     }
 
+    private void setupRecyclerView() {
+        beerList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
+                false));
+        recyclerViewAdapter = new ItemRecyclerViewAdapter(this);
+        beerList.setAdapter(recyclerViewAdapter);
+    }
+
     private void setupObservers() {
         viewModel = ViewModelProviders.of(this).get(BeerProvider.class);
         viewModel.getBeers().observe(this, new Observer<List<Beer>>() {
@@ -108,10 +112,10 @@ public class BeerListActivity extends AppCompatActivity implements LifecycleRegi
             }
 
         });
-        viewModel.getRefreshing().observe(this, new Observer<Boolean>() {
+        viewModel.getCurrentStatus().observe(this, new Observer<CurrentStatus>() {
             @Override
-            public void onChanged(@Nullable Boolean aBoolean) {
-                presenter.onChanged(aBoolean);
+            public void onChanged(@Nullable CurrentStatus currentStatus) {
+                presenter.onChanged(currentStatus);
             }
         });
     }
@@ -120,20 +124,6 @@ public class BeerListActivity extends AppCompatActivity implements LifecycleRegi
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
-    }
-
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
-                false));
-        recyclerViewAdapter = new ItemRecyclerViewAdapter(new ItemRecyclerViewAdapter
-                .OnItemClickListener() {
-
-            @Override
-            public void onClick(int position) {
-                presenter.onListItemClick(position);
-            }
-        });
-        recyclerView.setAdapter(recyclerViewAdapter);
     }
 
     @Override
@@ -157,7 +147,7 @@ public class BeerListActivity extends AppCompatActivity implements LifecycleRegi
     }
 
     @Override
-    public void setItems(List<BeerListModel> models) {
+    public void setItems(List<IBeerListModel> models) {
         recyclerViewAdapter.setItems(models);
     }
 
@@ -178,6 +168,16 @@ public class BeerListActivity extends AppCompatActivity implements LifecycleRegi
             intent.putExtra("beer", viewModel.getSelectedBeer().getValue());
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void showError() {
+        Snackbar.make(beerList, R.string.generic_error, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        presenter.onListItemClick(position);
     }
 
 }

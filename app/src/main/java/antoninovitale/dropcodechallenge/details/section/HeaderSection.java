@@ -40,7 +40,7 @@ public class HeaderSection extends StatelessSection {
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
         HeaderSectionViewHolder itemHolder = (HeaderSectionViewHolder) holder;
         itemHolder.name.setText(headerSectionModel.getName());
-        itemHolder.abv.setText(headerSectionModel.getAbv());
+        itemHolder.abv.setText(headerSectionModel.getAbvPercentage());
         itemHolder.description.setText(headerSectionModel.getDescription());
     }
 

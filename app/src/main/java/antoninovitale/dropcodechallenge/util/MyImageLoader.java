@@ -24,7 +24,9 @@ public class MyImageLoader {
     }
 
     public static MyImageLoader getInstance() {
-        if (instance == null) createInstance();
+        if (instance == null) {
+            createInstance();
+        }
         return instance;
     }
 

@@ -1,4 +1,4 @@
-package antoninovitale.dropcodechallenge.list.viewmodel;
+package antoninovitale.dropcodechallenge.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -18,9 +18,10 @@ import retrofit2.Response;
  * Created by antoninovitale on 28/08/2017.
  */
 public class BeerProvider extends ViewModel {
+    //TODO convert API models to UI models eventually
     private MutableLiveData<List<Beer>> beers;
 
-    private final MutableLiveData<Boolean> refreshing = new MutableLiveData<>();
+    private final MutableLiveData<CurrentStatus> currentStatus = new MutableLiveData<>();
 
     private final MutableLiveData<Beer> selectedBeer = new MutableLiveData<>();
 
@@ -33,24 +34,27 @@ public class BeerProvider extends ViewModel {
     }
 
     public void loadBeers() {
-        setRefreshing(true);
+        setCurrentStatus(true, false);
+        //instead of getting a random beer I download the full list
         Call<List<Beer>> call = PunkService.getApiClient().getBeers(null, null);
         call.enqueue(new Callback<List<Beer>>() {
             @Override
             public void onResponse(@NonNull Call<List<Beer>> call, @NonNull Response<List<Beer>>
                     response) {
+                boolean error = false;
                 if (response.isSuccessful() && response.body() != null) {
                     beers.setValue(response.body());
                 } else {
                     DebugLog.log("loadBeers", "there was an error");
+                    error = true;
                 }
-                setRefreshing(false);
+                setCurrentStatus(false, error);
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Beer>> call, @NonNull Throwable t) {
                 DebugLog.log("loadBeers", "" + t.getMessage(), t);
-                setRefreshing(false);
+                setCurrentStatus(false, true);
             }
         });
     }
@@ -62,16 +66,22 @@ public class BeerProvider extends ViewModel {
         }
     }
 
+    public void setSelectedBeer(Beer beer) {
+        if (beer != null) {
+            this.selectedBeer.setValue(beer);
+        }
+    }
+
     public MutableLiveData<Beer> getSelectedBeer() {
         return selectedBeer;
     }
 
-    private void setRefreshing(boolean refreshing) {
-        this.refreshing.setValue(refreshing);
+    private void setCurrentStatus(boolean refreshing, boolean error) {
+        this.currentStatus.setValue(new CurrentStatus(refreshing, error));
     }
 
-    public MutableLiveData<Boolean> getRefreshing() {
-        return refreshing;
+    public MutableLiveData<CurrentStatus> getCurrentStatus() {
+        return currentStatus;
     }
 
 }

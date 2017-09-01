@@ -10,6 +10,7 @@ import retrofit2.http.Query;
 /**
  * Created by antoninovitale on 28/08/2017.
  */
+@SuppressWarnings("WeakerAccess")
 public interface PunkAPI {
     String API_BASE_URL = "https://api.punkapi.com";
 

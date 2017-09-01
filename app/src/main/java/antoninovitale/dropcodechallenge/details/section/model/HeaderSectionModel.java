@@ -1,20 +1,18 @@
 package antoninovitale.dropcodechallenge.details.section.model;
 
-import antoninovitale.dropcodechallenge.util.Utils;
-
 /**
  * Created by antoninovitale on 28/08/2017.
  */
 public class HeaderSectionModel {
     private final String name;
 
-    private final String abv;
+    private final String abvPercentage;
 
     private final String description;
 
-    public HeaderSectionModel(String name, double abv, String description) {
+    public HeaderSectionModel(String name, String abvPercentage, String description) {
         this.name = name;
-        this.abv = Utils.formatPercentage(abv);
+        this.abvPercentage = abvPercentage;
         this.description = description;
     }
 
@@ -22,8 +20,8 @@ public class HeaderSectionModel {
         return name;
     }
 
-    public String getAbv() {
-        return abv;
+    public String getAbvPercentage() {
+        return abvPercentage;
     }
 
     public String getDescription() {

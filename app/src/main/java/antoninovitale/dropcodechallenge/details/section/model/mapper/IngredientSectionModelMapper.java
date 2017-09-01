@@ -48,7 +48,7 @@ public class IngredientSectionModelMapper {
         IngredientSectionModel model = null;
         if (hop != null) {
             model = new IngredientSectionModel(hop.getName(), convertAmount(hop.getAmount()),
-                    IngredientType.HOP, Status.IDLE, convertAdd(hop.getAdd()));
+                    IngredientType.HOP, Status.IDLE, Add.getAdd(hop.getAdd()));
         }
         return model;
     }
@@ -64,27 +64,6 @@ public class IngredientSectionModelMapper {
 
     private static String convertAmount(Amount amount) {
         return amount != null ? String.format("%s %s", amount.getValue(), amount.getUnit()) : null;
-    }
-
-    private static Add convertAdd(String add) {
-        if (add == null) {
-            return Add.NONE;
-        }
-        Add value;
-        switch (add) {
-            case "start":
-                value = Add.START;
-                break;
-            case "middle":
-                value = Add.MIDDLE;
-                break;
-            case "end":
-                value = Add.END;
-                break;
-            default:
-                value = Add.NONE;
-        }
-        return value;
     }
 
     public static List<IngredientSectionModel> convertHops(List<Hop> hops) {

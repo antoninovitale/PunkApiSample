@@ -5,7 +5,6 @@ import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,9 +13,9 @@ import android.widget.ImageView;
 
 import antoninovitale.dropcodechallenge.R;
 import antoninovitale.dropcodechallenge.api.model.Beer;
-import antoninovitale.dropcodechallenge.details.viewmodel.BeerDetailProvider;
 import antoninovitale.dropcodechallenge.list.BeerListActivity;
 import antoninovitale.dropcodechallenge.util.MyImageLoader;
+import antoninovitale.dropcodechallenge.viewmodel.BeerProvider;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -34,12 +33,7 @@ public class BeerDetailsActivity extends AppCompatActivity implements LifecycleR
     @BindView(R.id.imgCover)
     ImageView imgCover;
 
-    @BindView(R.id.app_bar)
-    AppBarLayout appBarLayout;
-
     private Unbinder unbinder;
-
-    private BeerDetailProvider viewModel;
 
     private final LifecycleRegistry mRegistry = new LifecycleRegistry(this);
 
@@ -55,10 +49,10 @@ public class BeerDetailsActivity extends AppCompatActivity implements LifecycleR
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
-        viewModel = ViewModelProviders.of(this).get(BeerDetailProvider.class);
+        BeerProvider viewModel = ViewModelProviders.of(this).get(BeerProvider.class);
         Beer beer = (Beer) getIntent().getSerializableExtra("beer");
         if (beer != null) {
-            viewModel.setBeer(beer);
+            viewModel.setSelectedBeer(beer);
             MyImageLoader.getInstance().loadImage(this, beer.getImageUrl(), imgCover);
         }
 
@@ -92,12 +86,6 @@ public class BeerDetailsActivity extends AppCompatActivity implements LifecycleR
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
             navigateUpTo(new Intent(this, BeerListActivity.class));
             return true;
         }
@@ -108,4 +96,5 @@ public class BeerDetailsActivity extends AppCompatActivity implements LifecycleR
     public LifecycleRegistry getLifecycle() {
         return mRegistry;
     }
+
 }

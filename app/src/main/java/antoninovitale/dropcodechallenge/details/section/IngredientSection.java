@@ -6,7 +6,6 @@ import android.view.View;
 import java.util.List;
 
 import antoninovitale.dropcodechallenge.R;
-import antoninovitale.dropcodechallenge.details.BeerDetailsContract;
 import antoninovitale.dropcodechallenge.details.section.model.IngredientSectionModel;
 import antoninovitale.dropcodechallenge.details.section.model.Status;
 import antoninovitale.dropcodechallenge.details.section.viewholder.IngredientSectionViewHolder;
@@ -26,14 +25,18 @@ public class IngredientSection extends StatelessSection {
 
     private final String sectionTitle;
 
-    private final BeerDetailsContract.Actions actions;
+    private final OnStatusClickListener onStatusClickListener;
 
-    public IngredientSection(BeerDetailsContract.Actions actions, String title,
+    public interface OnStatusClickListener {
+        void onStatusClick(int position);
+    }
+
+    public IngredientSection(OnStatusClickListener onStatusClickListener, String title,
                              List<IngredientSectionModel> ingredients) {
         super(getSectionParameters());
         this.ingredients = ingredients;
         this.sectionTitle = title;
-        this.actions = actions;
+        this.onStatusClickListener = onStatusClickListener;
     }
 
     private static SectionParameters getSectionParameters() {
@@ -83,7 +86,7 @@ public class IngredientSection extends StatelessSection {
         viewHolder.status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                actions.onStatusClick(holder.getAdapterPosition());
+                onStatusClickListener.onStatusClick(holder.getAdapterPosition());
             }
         });
     }

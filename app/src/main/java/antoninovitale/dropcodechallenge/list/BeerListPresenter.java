@@ -4,6 +4,7 @@ import java.util.List;
 
 import antoninovitale.dropcodechallenge.api.model.Beer;
 import antoninovitale.dropcodechallenge.list.model.mapper.BeerListModelMapper;
+import antoninovitale.dropcodechallenge.viewmodel.CurrentStatus;
 
 /**
  * Created by antoninovitale on 31/08/2017.
@@ -31,9 +32,12 @@ class BeerListPresenter implements BeerListContract.Actions {
     }
 
     @Override
-    public void onChanged(Boolean value) {
-        if(value != null) {
-            view.setRefreshing(value);
+    public void onChanged(CurrentStatus currentStatus) {
+        if(currentStatus != null) {
+            view.setRefreshing(currentStatus.isRefreshing());
+            if(currentStatus.isError()) {
+                view.showError();
+            }
         }
     }
 

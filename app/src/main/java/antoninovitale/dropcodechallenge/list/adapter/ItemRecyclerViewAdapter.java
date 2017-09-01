@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import antoninovitale.dropcodechallenge.R;
-import antoninovitale.dropcodechallenge.list.model.BeerListModel;
+import antoninovitale.dropcodechallenge.list.model.Attribute;
+import antoninovitale.dropcodechallenge.list.model.IBeerListModel;
 import antoninovitale.dropcodechallenge.list.viewholder.ItemViewHolder;
 import antoninovitale.dropcodechallenge.util.MyImageLoader;
 
@@ -21,10 +22,10 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemViewHolder
 
     private final OnItemClickListener onItemClickListener;
 
-    private List<BeerListModel> items;
+    private List<IBeerListModel> items;
 
     public interface OnItemClickListener {
-        void onClick(int position);
+        void onItemClick(int position);
     }
 
     public ItemRecyclerViewAdapter(OnItemClickListener onItemClickListener) {
@@ -32,7 +33,7 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemViewHolder
         items = new ArrayList<>();
     }
 
-    public void setItems(List<BeerListModel> items) {
+    public void setItems(List<IBeerListModel> items) {
         this.items = items;
         this.notifyItemRangeChanged(0, items.size());
     }
@@ -46,27 +47,15 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemViewHolder
 
     @Override
     public void onBindViewHolder(final ItemViewHolder holder, int position) {
-        BeerListModel beer = items.get(position);
+        IBeerListModel beer = items.get(position);
         holder.itemView.setTag(beer);
         MyImageLoader.getInstance().loadImage(holder.itemView.getContext(), beer.getImageUrl(),
                 holder.img);
         holder.name.setText(beer.getName());
         holder.abv.setText(beer.getAbvPercentage());
         holder.tagline.setText(beer.getTagLine());
-        String label = null;
-        switch (beer.getAttribute()) {
-            case STRONG:
-                label = holder.attributeStrong;
-                break;
-            case BITTER:
-                label = holder.attributeBitter;
-                break;
-            case STRONG_BITTER:
-                label = String.format("%s & %s", holder.attributeStrong, holder.attributeBitter);
-                break;
-            default:
-                break;
-        }
+        String label = Attribute.getAttributeLabel(beer.getAttribute(), holder.attributeStrong,
+                holder.attributeBitter);
         if (!TextUtils.isEmpty(label)) {
             holder.attribute.setVisibility(View.VISIBLE);
             holder.attribute.setText(label);
@@ -76,7 +65,7 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onItemClickListener.onClick(holder.getAdapterPosition());
+                onItemClickListener.onItemClick(holder.getAdapterPosition());
             }
         });
     }
