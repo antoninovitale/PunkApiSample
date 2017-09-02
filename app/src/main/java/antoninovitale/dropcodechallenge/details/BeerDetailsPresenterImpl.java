@@ -16,8 +16,7 @@ class BeerDetailsPresenterImpl implements BeerDetailsPresenter, BeerDetailsInter
 
     private final BeerDetailsInteractor interactor;
 
-    BeerDetailsPresenterImpl(BeerDetailsView view) {
-        this.view = view;
+    BeerDetailsPresenterImpl() {
         this.interactor = new BeerDetailsInteractorImpl();
     }
 

@@ -53,6 +53,13 @@ public class BeerListUnitTest {
         verify(view, times(1)).setRefreshing(currentStatus.isRefreshing());
         verify(view, never()).showError();
     }
+    @Test
+    public void checkError() {
+        CurrentStatus currentStatus = new CurrentStatus(false, true);
+        presenter.onChanged(currentStatus);
+        verify(view, times(1)).setRefreshing(currentStatus.isRefreshing());
+        verify(view, times(1)).showError();
+    }
 
     @Test
     public void checkList() {

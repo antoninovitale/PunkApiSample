@@ -81,7 +81,7 @@ public class BeerDetailsFragment extends LifecycleFragment implements BeerDetail
         BeerDetailsViewModel beerDetailsViewModel = ViewModelProviders.of(getActivity()).get
                 (BeerDetailsViewModel.class);
         if (beerDetailsViewModel.getPresenter() == null) {
-            beerDetailsViewModel.setPresenter(new BeerDetailsPresenterImpl(this));
+            beerDetailsViewModel.setPresenter(new BeerDetailsPresenterImpl());
         }
         presenter = beerDetailsViewModel.getPresenter();
         presenter.setView(this); //needed to update the new instance after runtime changes
