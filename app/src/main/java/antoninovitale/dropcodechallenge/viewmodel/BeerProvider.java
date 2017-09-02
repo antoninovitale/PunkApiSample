@@ -67,7 +67,7 @@ public class BeerProvider extends ViewModel {
     }
 
     public void setSelectedBeer(Beer beer) {
-        if (beer != null) {
+        if (beer != null && selectedBeer.getValue() == null) {
             this.selectedBeer.setValue(beer);
         }
     }

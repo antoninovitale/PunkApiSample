@@ -23,6 +23,7 @@ import antoninovitale.dropcodechallenge.details.section.model.IngredientSectionM
 import antoninovitale.dropcodechallenge.details.section.model.MethodSectionModel;
 import antoninovitale.dropcodechallenge.list.BeerListActivity;
 import antoninovitale.dropcodechallenge.viewmodel.BeerProvider;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -34,16 +35,25 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapt
  * in two-pane mode (on tablets) or a {@link BeerDetailsActivity}
  * on handsets.
  */
-public class BeerDetailsFragment extends LifecycleFragment implements BeerDetailsContract.View,
+public class BeerDetailsFragment extends LifecycleFragment implements BeerDetailsView,
         IngredientSection.OnStatusClickListener {
     @BindView(R.id.sections)
     RecyclerView recyclerView;
+
+    @BindString(R.string.malt_section_title)
+    String maltSectionTitle;
+
+    @BindString(R.string.hop_section_title)
+    String hopSectionTitle;
+
+    @BindString(R.string.method_section_title)
+    String methodSectionTitle;
 
     private Unbinder unbinder;
 
     private SectionedRecyclerViewAdapter sectionAdapter;
 
-    private BeerDetailsContract.Actions presenter;
+    private BeerDetailsPresenter presenter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -57,13 +67,25 @@ public class BeerDetailsFragment extends LifecycleFragment implements BeerDetail
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_beer_detail, container, false);
         unbinder = ButterKnife.bind(this, rootView);
-        presenter = new BeerDetailsPresenter(this);
         setupRecyclerView();
-        setupObservers();
         return rootView;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setupObservers();
+    }
+
     private void setupObservers() {
+        BeerDetailsViewModel beerDetailsViewModel = ViewModelProviders.of(getActivity()).get
+                (BeerDetailsViewModel.class);
+        if (beerDetailsViewModel.getPresenter() == null) {
+            beerDetailsViewModel.setPresenter(new BeerDetailsPresenterImpl(this));
+        }
+        presenter = beerDetailsViewModel.getPresenter();
+        presenter.setView(this); //needed to update the new instance after runtime changes
+        BeerProvider viewModel = ViewModelProviders.of(getActivity()).get(BeerProvider.class);
         Observer<Beer> beerObserver = new Observer<Beer>() {
 
             @Override
@@ -71,10 +93,7 @@ public class BeerDetailsFragment extends LifecycleFragment implements BeerDetail
                 presenter.onChanged(beer);
             }
         };
-        BeerProvider viewModel = ViewModelProviders.of(getActivity()).get(BeerProvider.class);
-        if (viewModel != null) {
-            viewModel.getSelectedBeer().observe(this, beerObserver);
-        }
+        viewModel.getSelectedBeer().observe(this, beerObserver);
     }
 
     private void setupRecyclerView() {
@@ -98,8 +117,7 @@ public class BeerDetailsFragment extends LifecycleFragment implements BeerDetail
 
     @Override
     public void setupMaltsSection(List<IngredientSectionModel> malts) {
-        IngredientSection maltSection = new IngredientSection(this, getString(R.string
-                .malt_section_title), malts);
+        IngredientSection maltSection = new IngredientSection(this, maltSectionTitle, malts);
         maltSection.setVisible(malts != null && !malts.isEmpty());
         sectionAdapter.addSection(IngredientSection.MALT_TAG, maltSection);
         sectionAdapter.notifyItemRangeInserted(1, 1);
@@ -107,8 +125,7 @@ public class BeerDetailsFragment extends LifecycleFragment implements BeerDetail
 
     @Override
     public void setupHopsSection(List<IngredientSectionModel> hops) {
-        IngredientSection hopSection = new IngredientSection(this, getString(R.string
-                .hop_section_title), hops);
+        IngredientSection hopSection = new IngredientSection(this, hopSectionTitle, hops);
         hopSection.setVisible(hops != null && !hops.isEmpty());
         sectionAdapter.addSection(IngredientSection.HOP_TAG, hopSection);
         sectionAdapter.notifyItemRangeInserted(2, 1);
@@ -116,8 +133,7 @@ public class BeerDetailsFragment extends LifecycleFragment implements BeerDetail
 
     @Override
     public void setupMethodSection(List<MethodSectionModel> methods) {
-        MethodSection methodSection = new MethodSection(getString(R.string
-                .method_section_title), methods);
+        MethodSection methodSection = new MethodSection(methodSectionTitle, methods);
         methodSection.setVisible(methods != null && !methods.isEmpty());
         sectionAdapter.addSection(MethodSection.TAG, methodSection);
         sectionAdapter.notifyItemRangeInserted(3, 1);

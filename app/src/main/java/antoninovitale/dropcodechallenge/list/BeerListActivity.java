@@ -39,7 +39,8 @@ import butterknife.Unbinder;
  * item details side-by-side using two vertical panes.
  */
 public class BeerListActivity extends AppCompatActivity implements LifecycleRegistryOwner,
-        BeerListContract.View, ItemRecyclerViewAdapter.OnItemClickListener {
+        BeerListView, ItemRecyclerViewAdapter.OnItemClickListener, SwipeRefreshLayout
+                .OnRefreshListener {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -61,7 +62,7 @@ public class BeerListActivity extends AppCompatActivity implements LifecycleRegi
 
     private BeerProvider viewModel;
 
-    private BeerListContract.Actions presenter;
+    private BeerListPresenter presenter;
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -74,17 +75,12 @@ public class BeerListActivity extends AppCompatActivity implements LifecycleRegi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beer_list);
         unbinder = ButterKnife.bind(this);
-        presenter = new BeerListPresenter(this);
-        setSupportActionBar(toolbar);
+        presenter = new BeerListPresenterImpl(this);
 
+        setSupportActionBar(toolbar);
         setupRecyclerView();
         setupObservers();
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                presenter.onRefresh();
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         if (beerDetailContainer != null) {
             // The detail container view will be present only in the
@@ -178,6 +174,11 @@ public class BeerListActivity extends AppCompatActivity implements LifecycleRegi
     @Override
     public void onItemClick(int position) {
         presenter.onListItemClick(position);
+    }
+
+    @Override
+    public void onRefresh() {
+        presenter.onRefresh();
     }
 
 }

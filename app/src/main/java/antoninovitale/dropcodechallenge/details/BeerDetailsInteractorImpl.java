@@ -17,32 +17,42 @@ import antoninovitale.dropcodechallenge.util.Utils;
 /**
  * Created by antoninovitale on 01/09/2017.
  */
-public class BeerDetailsInteractorImpl implements BeerDetailsInteractor {
+class BeerDetailsInteractorImpl implements BeerDetailsInteractor {
+
+    private HeaderSectionModel headerSectionModel;
 
     private List<IngredientSectionModel> malts;
 
     private List<IngredientSectionModel> hops;
 
+    private List<MethodSectionModel> methods;
+
     @Override
     public void setupBeer(Beer beer, OnSectionSetupListener onSectionSetupListener) {
-        HeaderSectionModel headerSectionModel = new HeaderSectionModel(beer.getName(), Utils
-                .formatPercentage(beer.getAbv()), beer.getDescription());
+        boolean needUpdate = false;
+        if (headerSectionModel == null || !beer.getName().equalsIgnoreCase(headerSectionModel
+                .getName())) {
+            needUpdate = true;
+        }
+
+        if (needUpdate) {
+            headerSectionModel = new HeaderSectionModel(beer.getName(),
+                    Utils.formatPercentage(beer.getAbv()), beer.getDescription());
+            Ingredients ingredients = beer.getIngredients();
+            if (ingredients != null) {
+                malts = IngredientSectionModelMapper.convertMalts(ingredients.getMalt());
+                hops = IngredientSectionModelMapper.convertHops(ingredients.getHops());
+            }
+            Method method = beer.getMethod();
+            if (method != null) {
+                methods = MethodSectionModelMapper.convertMethods(method);
+            }
+        }
+
         onSectionSetupListener.onHeaderSet(headerSectionModel);
-
-        Ingredients ingredients = beer.getIngredients();
-        if (ingredients != null) {
-            malts = IngredientSectionModelMapper.convertMalts(ingredients.getMalt());
-            onSectionSetupListener.onMaltsSet(malts);
-
-            hops = IngredientSectionModelMapper.convertHops(ingredients.getHops());
-            onSectionSetupListener.onHopsSet(malts);
-        }
-
-        Method method = beer.getMethod();
-        if (method != null) {
-            List<MethodSectionModel> methods = MethodSectionModelMapper.convertMethods(method);
-            onSectionSetupListener.onMethodsSet(methods);
-        }
+        onSectionSetupListener.onMaltsSet(malts);
+        onSectionSetupListener.onHopsSet(hops);
+        onSectionSetupListener.onMethodsSet(methods);
     }
 
     @Override

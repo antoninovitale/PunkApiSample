@@ -14,6 +14,7 @@ import antoninovitale.dropcodechallenge.R;
  * Created by iWgang on 15/9/16.
  * https://github.com/iwgang/CountdownView
  */
+@SuppressWarnings("unused")
 public class CountdownView extends View {
     private BaseCountdown mCountdown;
 
@@ -216,7 +217,7 @@ public class CountdownView extends View {
      * set all time zero
      */
     public void allShowZero() {
-        mCountdown.setTimes(0, 0, 0, 0, 0);
+        mCountdown.setTime(0, 0, 0, 0, 0);
         invalidate();
     }
 
@@ -323,13 +324,14 @@ public class CountdownView extends View {
         int second = (int) ((ms % (1000 * 60)) / 1000);
         int millisecond = (int) (ms % 1000);
 
-        mCountdown.setTimes(day, hour, minute, second, millisecond);
+        mCountdown.setTime(day, hour, minute, second, millisecond);
     }
 
     public interface OnCountdownEndListener {
         void onEnd(CountdownView cv);
     }
 
+    @SuppressWarnings("WeakerAccess")
     public interface OnCountdownIntervalListener {
         void onInterval(CountdownView cv, long remainTime);
     }

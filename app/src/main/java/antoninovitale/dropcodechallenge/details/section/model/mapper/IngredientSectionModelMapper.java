@@ -18,7 +18,7 @@ import antoninovitale.dropcodechallenge.details.section.model.Status;
  */
 public class IngredientSectionModelMapper {
 
-    private static Comparator<IngredientSectionModel> ingredientSectionModelComparator = new
+    private static final Comparator<IngredientSectionModel> ingredientSectionModelComparator = new
             Comparator<IngredientSectionModel>() {
 
                 @Override

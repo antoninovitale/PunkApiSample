@@ -5,8 +5,9 @@ package antoninovitale.dropcodechallenge.util.countdownview;
  * Created by iWgang on 16/6/18.
  * https://github.com/iwgang/CountdownView
  */
+@SuppressWarnings("WeakerAccess")
 public class DynamicConfig {
-    private Builder mBuilder;
+    private final Builder mBuilder;
 
     private DynamicConfig(final Builder builder) {
         mBuilder = builder;
@@ -133,6 +134,7 @@ public class DynamicConfig {
     }
 
 
+    @SuppressWarnings("unused")
     public static class Builder {
         private Float timeTextSize;
 
@@ -470,6 +472,7 @@ public class DynamicConfig {
     }
 
 
+    @SuppressWarnings("unused")
     public static class BackgroundInfo {
         private boolean hasData = false;
 
@@ -594,6 +597,7 @@ public class DynamicConfig {
         }
     }
 
+    @SuppressWarnings("unused")
     public static class SuffixGravity {
         public static final int TOP = 0;
 

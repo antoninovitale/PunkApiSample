@@ -4,15 +4,15 @@ package antoninovitale.dropcodechallenge.list.model;
  * Created by antoninovitale on 31/08/2017.
  */
 public class BeerListModel implements IBeerListModel {
-    private String name;
+    private final String name;
 
-    private String tagLine;
+    private final String tagLine;
 
-    private String abvPercentage;
+    private final String abvPercentage;
 
-    private String imageUrl;
+    private final String imageUrl;
 
-    private Attribute attribute;
+    private final Attribute attribute;
 
     public BeerListModel(String name, String tagLine, String abvPercentage, Attribute attribute,
                          String imageUrl) {

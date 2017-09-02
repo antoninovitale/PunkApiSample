@@ -18,6 +18,7 @@ import antoninovitale.dropcodechallenge.R;
 /**
  * Custom TextView with feature to collapse / expand text based on a maximum number of lines.
  */
+@SuppressWarnings({"unused", "FieldCanBeLocal"})
 public class ExpandableTextView extends android.support.v7.widget.AppCompatTextView {
 
     private final int DEFAULT_MAX_LINES = 0;
@@ -55,8 +56,7 @@ public class ExpandableTextView extends android.support.v7.widget.AppCompatTextV
 
                 int lineEndIndex = getLayout().getLineEnd(mMaxLines - 1);
                 String text = String.format("%s%s %s", getText().subSequence(0, lineEndIndex -
-                                mViewMoreText.length() - mEllipsizeText.length() + 1),
-                        mEllipsizeText,
+                        mViewMoreText.length() - mEllipsizeText.length() + 1), mEllipsizeText,
                         mViewMoreText);
                 setMovementMethod(LinkMovementMethod.getInstance());
                 changeText(addClickablePartTextViewResizable(text, mViewMoreText));

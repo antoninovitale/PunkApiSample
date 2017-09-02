@@ -3,48 +3,19 @@ package antoninovitale.dropcodechallenge.list;
 import java.util.List;
 
 import antoninovitale.dropcodechallenge.api.model.Beer;
-import antoninovitale.dropcodechallenge.list.model.mapper.BeerListModelMapper;
 import antoninovitale.dropcodechallenge.viewmodel.CurrentStatus;
 
 /**
- * Created by antoninovitale on 31/08/2017.
+ * Created by antoninovitale on 02/09/2017.
  */
-class BeerListPresenter implements BeerListContract.Actions {
-    private BeerListContract.View view;
+public interface BeerListPresenter {
+    void onFloatingButtonClick();
 
-    BeerListPresenter(BeerListContract.View view) {
-        this.view = view;
-    }
+    void onRefresh();
 
-    @Override
-    public void onFloatingButtonClick() {
-        view.refreshList();
-    }
+    void onChanged(List<Beer> beers);
 
-    @Override
-    public void onRefresh() {
-        view.refreshList();
-    }
+    void onListItemClick(int position);
 
-    @Override
-    public void onChanged(List<Beer> beers) {
-        view.setItems(BeerListModelMapper.convertBeers(beers));
-    }
-
-    @Override
-    public void onChanged(CurrentStatus currentStatus) {
-        if(currentStatus != null) {
-            view.setRefreshing(currentStatus.isRefreshing());
-            if(currentStatus.isError()) {
-                view.showError();
-            }
-        }
-    }
-
-    @Override
-    public void onListItemClick(int position) {
-        view.selectItem(position);
-        view.navigateToDetails();
-    }
-
+    void onChanged(CurrentStatus currentStatus);
 }

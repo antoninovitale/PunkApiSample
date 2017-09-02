@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 
 import antoninovitale.dropcodechallenge.R;
 
@@ -36,6 +37,7 @@ public class MyImageLoader {
                 .fallback(R.drawable.ic_placeholder)
                 .error(R.drawable.ic_placeholder)
                 .crossFade()
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                 .fitCenter()
                 .into(view);
     }

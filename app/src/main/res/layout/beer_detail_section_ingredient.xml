@@ -37,15 +37,11 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:layout_margin="@dimen/text_margin"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="@string/idle"
         android:textColor="@color/black"
         android:textSize="12sp"/>
-
 
 </LinearLayout>

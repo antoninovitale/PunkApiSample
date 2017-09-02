@@ -1,5 +1,6 @@
 package antoninovitale.dropcodechallenge.util.countdownview;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
@@ -8,7 +9,7 @@ import android.os.SystemClock;
  * Created by iWgang on 15/10/18.
  * https://github.com/iwgang/CountdownView
  */
-public abstract class CustomCountDownTimer {
+abstract class CustomCountDownTimer {
     private static final int MSG = 1;
 
     private final long mMillisInFuture;
@@ -23,7 +24,7 @@ public abstract class CustomCountDownTimer {
 
     private boolean isPause = false;
 
-    public CustomCountDownTimer(long millisInFuture, long countDownInterval) {
+    CustomCountDownTimer(long millisInFuture, long countDownInterval) {
         if (countDownInterval > 1000) millisInFuture += 15;
         mMillisInFuture = millisInFuture;
         mCountdownInterval = countDownInterval;
@@ -41,16 +42,16 @@ public abstract class CustomCountDownTimer {
         return this;
     }
 
-    public synchronized final void start() {
+    synchronized final void start() {
         start(mMillisInFuture);
     }
 
-    public synchronized final void stop() {
+    synchronized final void stop() {
         isStop = true;
         mHandler.removeMessages(MSG);
     }
 
-    public synchronized final void pause() {
+    synchronized final void pause() {
         if (isStop) return;
 
         isPause = true;
@@ -58,22 +59,22 @@ public abstract class CustomCountDownTimer {
         mHandler.removeMessages(MSG);
     }
 
-    public synchronized final void restart() {
+    synchronized final void restart() {
         if (isStop || !isPause) return;
 
         isPause = false;
         start(mPauseTimeInFuture);
     }
 
-    public synchronized boolean isPaused() {
+    synchronized boolean isPaused() {
         return isPause;
     }
 
-    public synchronized boolean isStopped() {
+    synchronized boolean isStopped() {
         return isStop;
     }
 
-    public synchronized boolean isRunning() {
+    synchronized boolean isRunning() {
         return !isStop && !isPause;
     }
 
@@ -81,8 +82,8 @@ public abstract class CustomCountDownTimer {
 
     public abstract void onFinish();
 
-
-    private Handler mHandler = new Handler() {
+    @SuppressLint("HandlerLeak")
+    private final Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -111,4 +112,5 @@ public abstract class CustomCountDownTimer {
             }
         }
     };
+
 }

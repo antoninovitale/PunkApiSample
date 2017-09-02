@@ -10,7 +10,7 @@ import antoninovitale.dropcodechallenge.details.section.model.MethodSectionModel
 /**
  * Created by antoninovitale on 01/09/2017.
  */
-public interface BeerDetailsInteractor {
+interface BeerDetailsInteractor {
     interface OnStatusCheckListener {
         void onMaltDone(int position);
 

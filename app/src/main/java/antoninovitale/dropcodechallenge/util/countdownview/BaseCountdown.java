@@ -20,44 +20,61 @@ class BaseCountdown {
 
     private static final float DEFAULT_SUFFIX_LR_MARGIN = 3; // dp
 
-    public int mDay, mHour, mMinute, mSecond, mMillisecond;
+    int mDay, mHour, mMinute, mSecond, mMillisecond;
 
-    public boolean isShowDay, isShowHour, isShowMinute, isShowSecond, isShowMillisecond;
+    boolean isShowDay, isShowHour, isShowMinute, isShowSecond, isShowMillisecond;
 
-    public boolean isConvertDaysToHours;
+    boolean isConvertDaysToHours;
 
-    public boolean mHasSetIsShowDay, mHasSetIsShowHour;
+    boolean mHasSetIsShowDay, mHasSetIsShowHour;
 
-    protected Context mContext;
+    Context mContext;
 
-    protected String mSuffix, mSuffixDay, mSuffixHour, mSuffixMinute, mSuffixSecond,
-            mSuffixMillisecond;
+    private String mSuffix;
 
-    protected float mSuffixDayTextWidth, mSuffixHourTextWidth, mSuffixMinuteTextWidth,
+    String mSuffixDay;
+
+    String mSuffixHour;
+
+    String mSuffixMinute;
+
+    String mSuffixSecond;
+
+    String mSuffixMillisecond;
+
+    float mSuffixDayTextWidth, mSuffixHourTextWidth, mSuffixMinuteTextWidth,
             mSuffixSecondTextWidth, mSuffixMillisecondTextWidth;
 
-    protected boolean isDayLargeNinetyNine;
+    boolean isDayLargeNinetyNine;
 
-    protected Paint mTimeTextPaint, mSuffixTextPaint, mMeasureHourWidthPaint;
+    Paint mTimeTextPaint;
 
-    protected float mLeftPaddingSize;
+    Paint mSuffixTextPaint;
 
-    protected float mSuffixDayLeftMargin, mSuffixDayRightMargin;
+    private Paint mMeasureHourWidthPaint;
 
-    protected float mSuffixSecondLeftMargin, mSuffixSecondRightMargin;
+    float mLeftPaddingSize;
 
-    protected float mSuffixHourLeftMargin, mSuffixHourRightMargin;
+    float mSuffixDayLeftMargin, mSuffixDayRightMargin;
 
-    protected float mSuffixMinuteLeftMargin, mSuffixMinuteRightMargin;
+    float mSuffixSecondLeftMargin, mSuffixSecondRightMargin;
 
-    protected float mSuffixMillisecondLeftMargin;
+    float mSuffixHourLeftMargin, mSuffixHourRightMargin;
 
-    protected float mSuffixDayTextBaseline, mSuffixHourTextBaseline, mSuffixMinuteTextBaseline,
+    float mSuffixMinuteLeftMargin, mSuffixMinuteRightMargin;
+
+    float mSuffixMillisecondLeftMargin;
+
+    float mSuffixDayTextBaseline, mSuffixHourTextBaseline, mSuffixMinuteTextBaseline,
             mSuffixSecondTextBaseline, mSuffixMillisecondTextBaseline;
 
-    protected float mTimeTextWidth, mTimeTextHeight, mTimeTextBottom;
+    float mTimeTextWidth;
 
-    protected int mSuffixGravity;
+    private float mTimeTextHeight;
+
+    float mTimeTextBottom;
+
+    int mSuffixGravity;
 
     private boolean hasSetSuffixDay, hasSetSuffixHour, hasSetSuffixMinute, hasSetSuffixSecond,
             hasSetSuffixMillisecond;
@@ -102,46 +119,30 @@ class BaseCountdown {
                 .CountdownView_timeTextSize, Utils.sp2px(mContext, 12));
         mTimeTextColor = ta.getColor(R.styleable
                 .CountdownView_timeTextColor, 0xFF000000);
-        isShowDay = ta.getBoolean(R.styleable.CountdownView_isShowDay,
-                false);
-        isShowHour = ta.getBoolean(R.styleable.CountdownView_isShowHour,
-                false);
-        isShowMinute = ta.getBoolean(R.styleable
-                .CountdownView_isShowMinute, true);
-        isShowSecond = ta.getBoolean(R.styleable
-                .CountdownView_isShowSecond, true);
-        isShowMillisecond = ta.getBoolean(R.styleable
-                .CountdownView_isShowMillisecond, false);
-        if (ta.getBoolean(R.styleable.CountdownView_isHideTimeBackground,
-                true)) {
-            isConvertDaysToHours = ta.getBoolean(R.styleable
-                    .CountdownView_isConvertDaysToHours, false);
+        isShowDay = ta.getBoolean(R.styleable.CountdownView_isShowDay, false);
+        isShowHour = ta.getBoolean(R.styleable.CountdownView_isShowHour, false);
+        isShowMinute = ta.getBoolean(R.styleable.CountdownView_isShowMinute, true);
+        isShowSecond = ta.getBoolean(R.styleable.CountdownView_isShowSecond, true);
+        isShowMillisecond = ta.getBoolean(R.styleable.CountdownView_isShowMillisecond, false);
+        if (ta.getBoolean(R.styleable.CountdownView_isHideTimeBackground, true)) {
+            isConvertDaysToHours = ta.getBoolean(R.styleable.CountdownView_isConvertDaysToHours,
+                    false);
         }
-        isSuffixTextBold = ta.getBoolean(R.styleable
-                .CountdownView_isSuffixTextBold, false);
-        mSuffixTextSize = ta.getDimension(R.styleable
-                .CountdownView_suffixTextSize, Utils.sp2px(mContext, 12));
-        mSuffixTextColor = ta.getColor(R.styleable
-                .CountdownView_suffixTextColor, 0xFF000000);
+        isSuffixTextBold = ta.getBoolean(R.styleable.CountdownView_isSuffixTextBold, false);
+        mSuffixTextSize = ta.getDimension(R.styleable.CountdownView_suffixTextSize, Utils.sp2px
+                (mContext, 12));
+        mSuffixTextColor = ta.getColor(R.styleable.CountdownView_suffixTextColor, 0xFF000000);
         mSuffix = ta.getString(R.styleable.CountdownView_suffix);
         mSuffixDay = ta.getString(R.styleable.CountdownView_suffixDay);
         mSuffixHour = ta.getString(R.styleable.CountdownView_suffixHour);
-        mSuffixMinute = ta.getString(R.styleable
-                .CountdownView_suffixMinute);
-        mSuffixSecond = ta.getString(R.styleable
-                .CountdownView_suffixSecond);
-        mSuffixMillisecond = ta.getString(R.styleable
-                .CountdownView_suffixMillisecond);
-        mSuffixGravity = ta.getInt(R.styleable
-                .CountdownView_suffixGravity, 1);
-        mSuffixLRMargin = ta.getDimension(R.styleable
-                .CountdownView_suffixLRMargin, -1);
-        mSuffixDayLeftMargin = ta.getDimension(R.styleable
-                .CountdownView_suffixDayLeftMargin, -1);
-        mSuffixDayRightMargin = ta.getDimension(R.styleable
-                .CountdownView_suffixDayRightMargin, -1);
-        mSuffixHourLeftMargin = ta.getDimension(R.styleable
-                .CountdownView_suffixHourLeftMargin, -1);
+        mSuffixMinute = ta.getString(R.styleable.CountdownView_suffixMinute);
+        mSuffixSecond = ta.getString(R.styleable.CountdownView_suffixSecond);
+        mSuffixMillisecond = ta.getString(R.styleable.CountdownView_suffixMillisecond);
+        mSuffixGravity = ta.getInt(R.styleable.CountdownView_suffixGravity, 1);
+        mSuffixLRMargin = ta.getDimension(R.styleable.CountdownView_suffixLRMargin, -1);
+        mSuffixDayLeftMargin = ta.getDimension(R.styleable.CountdownView_suffixDayLeftMargin, -1);
+        mSuffixDayRightMargin = ta.getDimension(R.styleable.CountdownView_suffixDayRightMargin, -1);
+        mSuffixHourLeftMargin = ta.getDimension(R.styleable.CountdownView_suffixHourLeftMargin, -1);
         mSuffixHourRightMargin = ta.getDimension(R.styleable
                 .CountdownView_suffixHourRightMargin, -1);
         mSuffixMinuteLeftMargin = ta.getDimension(R.styleable
@@ -156,8 +157,7 @@ class BaseCountdown {
                 .CountdownView_suffixMillisecondLeftMargin, -1);
 
         mHasSetIsShowDay = ta.hasValue(R.styleable.CountdownView_isShowDay);
-        mHasSetIsShowHour = ta.hasValue(R.styleable
-                .CountdownView_isShowHour);
+        mHasSetIsShowHour = ta.hasValue(R.styleable.CountdownView_isShowHour);
 
         initTempSuffixMargin();
 
@@ -166,7 +166,7 @@ class BaseCountdown {
         if (!isShowSecond) isShowMillisecond = false;
     }
 
-    public void initialize() {
+    void initialize() {
         initSuffixBase();
 
         // initialize
@@ -514,7 +514,7 @@ class BaseCountdown {
         return ret;
     }
 
-    protected final float getAllContentWidthBase(float timeWidth) {
+    final float getAllContentWidthBase(float timeWidth) {
         float width = (mSuffixDayTextWidth + mSuffixHourTextWidth + mSuffixMinuteTextWidth +
                 mSuffixSecondTextWidth + mSuffixMillisecondTextWidth);
         width += (mSuffixDayLeftMargin + mSuffixDayRightMargin + mSuffixHourLeftMargin +
@@ -689,8 +689,8 @@ class BaseCountdown {
         }
     }
 
-    public boolean refTimeShow(boolean isShowDay, boolean isShowHour, boolean isShowMinute,
-                               boolean isShowSecond, boolean isShowMillisecond) {
+    boolean refTimeShow(boolean isShowDay, boolean isShowHour, boolean isShowMinute,
+                        boolean isShowSecond, boolean isShowMillisecond) {
         if (!isShowSecond) isShowMillisecond = false;
 
         boolean isModCountdownInterval = false;
@@ -757,7 +757,7 @@ class BaseCountdown {
         return isModCountdownInterval;
     }
 
-    public boolean handlerAutoShowTime() {
+    boolean handlerAutoShowTime() {
         boolean isReLayout = false;
         if (!mHasSetIsShowDay) {
             if (!isShowDay && mDay > 0) {
@@ -803,7 +803,7 @@ class BaseCountdown {
         return isReLayout;
     }
 
-    public boolean handlerDayLargeNinetyNine() {
+    boolean handlerDayLargeNinetyNine() {
         boolean isReLayout = false;
         if (isShowDay) {
             // handler large ninety nine
@@ -818,7 +818,7 @@ class BaseCountdown {
         return isReLayout;
     }
 
-    public void setTimes(int day, int hour, int minute, int second, int millisecond) {
+    void setTime(int day, int hour, int minute, int second, int millisecond) {
         mDay = day;
         mHour = hour;
         mMinute = minute;
@@ -826,57 +826,57 @@ class BaseCountdown {
         mMillisecond = millisecond;
     }
 
-    public void reLayout() {
+    void reLayout() {
         initSuffix();
         initTimeTextBaseInfo();
     }
 
-    public void setTimeTextSize(float textSize) {
+    void setTimeTextSize(float textSize) {
         if (textSize > 0) {
             mTimeTextSize = Utils.sp2px(mContext, textSize);
             mTimeTextPaint.setTextSize(mTimeTextSize);
         }
     }
 
-    public void setTimeTextColor(int textColor) {
+    void setTimeTextColor(int textColor) {
         mTimeTextColor = textColor;
         mTimeTextPaint.setColor(mTimeTextColor);
     }
 
-    public void setTimeTextBold(boolean isBold) {
+    void setTimeTextBold(boolean isBold) {
         isTimeTextBold = isBold;
         mTimeTextPaint.setFakeBoldText(isTimeTextBold);
     }
 
-    public void setSuffixTextSize(float textSize) {
+    void setSuffixTextSize(float textSize) {
         if (textSize > 0) {
             mSuffixTextSize = Utils.sp2px(mContext, textSize);
             mSuffixTextPaint.setTextSize(mSuffixTextSize);
         }
     }
 
-    public void setSuffixTextColor(int textColor) {
+    void setSuffixTextColor(int textColor) {
         mSuffixTextColor = textColor;
         mSuffixTextPaint.setColor(mSuffixTextColor);
     }
 
-    public void setSuffixTextBold(boolean isBold) {
+    void setSuffixTextBold(boolean isBold) {
         isSuffixTextBold = isBold;
         mSuffixTextPaint.setFakeBoldText(isSuffixTextBold);
     }
 
-    public void setSuffix(String suffix) {
+    void setSuffix(String suffix) {
         mSuffix = suffix;
         setSuffix(mSuffix, mSuffix, mSuffix, mSuffix, mSuffix);
     }
 
-    public boolean setConvertDaysToHours(boolean isConvertDaysToHours) {
+    boolean setConvertDaysToHours(boolean isConvertDaysToHours) {
         if (this.isConvertDaysToHours == isConvertDaysToHours) return false;
         this.isConvertDaysToHours = isConvertDaysToHours;
         return true;
     }
 
-    public boolean setSuffix(String suffixDay, String suffixHour, String suffixMinute, String
+    boolean setSuffix(String suffixDay, String suffixHour, String suffixMinute, String
             suffixSecond, String suffixMillisecond) {
         boolean isRef = false;
 
@@ -910,7 +910,7 @@ class BaseCountdown {
         return isRef;
     }
 
-    public void setSuffixLRMargin(float suffixLRMargin) {
+    void setSuffixLRMargin(float suffixLRMargin) {
         mSuffixLRMargin = Utils.dp2px(mContext, suffixLRMargin);
         setSuffixMargin(mSuffixDayLeftMargin, mSuffixDayLeftMargin,
                 mSuffixDayLeftMargin, mSuffixDayLeftMargin,
@@ -919,11 +919,11 @@ class BaseCountdown {
                 mSuffixDayLeftMargin);
     }
 
-    public boolean setSuffixMargin(Float suffixDayMarginL, Float suffixDayMarginR,
-                                   Float suffixHourMarginL, Float suffixHourMarginR,
-                                   Float suffixMinuteMarginL, Float suffixMinuteMarginR,
-                                   Float suffixSecondMarginL, Float suffixSecondMarginR,
-                                   Float suffixMillisecondMarginL) {
+    boolean setSuffixMargin(Float suffixDayMarginL, Float suffixDayMarginR,
+                            Float suffixHourMarginL, Float suffixHourMarginR,
+                            Float suffixMinuteMarginL, Float suffixMinuteMarginR,
+                            Float suffixSecondMarginL, Float suffixSecondMarginR,
+                            Float suffixMillisecondMarginL) {
         boolean isRef = false;
 
         if (null != suffixDayMarginL) {
@@ -973,7 +973,7 @@ class BaseCountdown {
         return isRef;
     }
 
-    public void setSuffixGravity(int suffixGravity) {
+    void setSuffixGravity(int suffixGravity) {
         mSuffixGravity = suffixGravity;
     }
 
