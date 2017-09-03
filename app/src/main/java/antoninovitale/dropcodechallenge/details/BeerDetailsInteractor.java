@@ -12,6 +12,16 @@ import antoninovitale.dropcodechallenge.details.section.model.Status;
  * Created by antoninovitale on 01/09/2017.
  */
 interface BeerDetailsInteractor {
+    void setupBeer(Beer beer, OnSectionSetupListener onSectionSetupListener);
+
+    void checkIngredientStatus(int position, OnStatusCheckListener onStatusCheckListener);
+
+    void checkMethodStatus(int position, OnStatusCheckListener onStatusCheckListener);
+
+    void setMethodDone(int position, OnStatusCheckListener onStatusCheckListener);
+
+    void setMethodTimeElapsed(int position, long millis);
+
     interface OnStatusCheckListener {
 
         void onMaltDone(int position);
@@ -35,15 +45,5 @@ interface BeerDetailsInteractor {
         void onMethodsSet(List<MethodSectionModel> methods);
 
     }
-
-    void setupBeer(Beer beer, OnSectionSetupListener onSectionSetupListener);
-
-    void checkIngredientStatus(int position, OnStatusCheckListener onStatusCheckListener);
-
-    void checkMethodStatus(int position, OnStatusCheckListener onStatusCheckListener);
-
-    void setMethodDone(int position, OnStatusCheckListener onStatusCheckListener);
-
-    void setMethodTimeElapsed(int position, long millis);
 
 }

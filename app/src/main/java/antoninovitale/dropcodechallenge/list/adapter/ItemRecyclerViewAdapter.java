@@ -24,10 +24,6 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemViewHolder
 
     private List<IBeerListModel> items;
 
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
-
     public ItemRecyclerViewAdapter(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
         items = new ArrayList<>();
@@ -73,6 +69,10 @@ public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemViewHolder
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 
 }

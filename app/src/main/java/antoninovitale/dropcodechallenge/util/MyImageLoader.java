@@ -9,7 +9,7 @@ import com.bumptech.glide.request.target.Target;
 import antoninovitale.dropcodechallenge.R;
 
 /**
- * Created by antoninovitale on 14/08/2017.
+ * Created by antoninovitale on 29/08/2017.
  */
 public class MyImageLoader {
 

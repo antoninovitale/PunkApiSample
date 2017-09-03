@@ -330,14 +330,6 @@ public class CountdownView extends View {
         mCountdown.setTime(day, hour, minute, second, millisecond);
     }
 
-    public interface OnCountdownEndListener {
-        void onEnd(CountdownView cv);
-    }
-
-    public interface OnCountdownIntervalListener {
-        void onInterval(CountdownView cv, long remainTime);
-    }
-
     /**
      * Dynamic show
      *
@@ -549,6 +541,14 @@ public class CountdownView extends View {
         } else if (isInvalidate) {
             invalidate();
         }
+    }
+
+    public interface OnCountdownEndListener {
+        void onEnd(CountdownView cv);
+    }
+
+    public interface OnCountdownIntervalListener {
+        void onInterval(CountdownView cv, long remainTime);
     }
 
 }

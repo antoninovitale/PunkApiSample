@@ -8,14 +8,14 @@ import android.arch.lifecycle.ViewModel;
 class BeerDetailsViewModel extends ViewModel {
     private BeerDetailsPresenter presenter;
 
+    BeerDetailsPresenter getPresenter() {
+        return presenter;
+    }
+
     void setPresenter(BeerDetailsPresenter presenter) {
         if (this.presenter == null) {
             this.presenter = presenter;
         }
-    }
-
-    BeerDetailsPresenter getPresenter() {
-        return presenter;
     }
 
     @Override

@@ -5,7 +5,7 @@ import antoninovitale.dropcodechallenge.api.model.Beer;
 /**
  * Created by antoninovitale on 02/09/2017.
  */
-interface BeerDetailsPresenter {
+public interface BeerDetailsPresenter {
     void setView(BeerDetailsView view);
 
     void onChanged(Beer beer);

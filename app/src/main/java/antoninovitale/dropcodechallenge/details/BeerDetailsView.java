@@ -10,7 +10,7 @@ import antoninovitale.dropcodechallenge.details.section.model.Status;
 /**
  * Created by antoninovitale on 02/09/2017.
  */
-interface BeerDetailsView {
+public interface BeerDetailsView {
     void setupHeaderSection(HeaderSectionModel headerSectionModel);
 
     void setupMaltsSection(List<IngredientSectionModel> malts);

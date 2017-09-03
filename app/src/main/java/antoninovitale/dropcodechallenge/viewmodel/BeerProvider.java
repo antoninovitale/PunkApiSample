@@ -18,12 +18,12 @@ import retrofit2.Response;
  * Created by antoninovitale on 28/08/2017.
  */
 public class BeerProvider extends ViewModel {
-    //TODO convert API models to UI models eventually
-    private MutableLiveData<List<Beer>> beers;
-
     private final MutableLiveData<CurrentStatus> currentStatus = new MutableLiveData<>();
 
     private final MutableLiveData<Beer> selectedBeer = new MutableLiveData<>();
+
+    //TODO convert API models to UI models eventually
+    private MutableLiveData<List<Beer>> beers;
 
     public LiveData<List<Beer>> getBeers() {
         if (beers == null) {
@@ -66,14 +66,14 @@ public class BeerProvider extends ViewModel {
         }
     }
 
+    public MutableLiveData<Beer> getSelectedBeer() {
+        return selectedBeer;
+    }
+
     public void setSelectedBeer(Beer beer) {
         if (beer != null && selectedBeer.getValue() == null) {
             this.selectedBeer.setValue(beer);
         }
-    }
-
-    public MutableLiveData<Beer> getSelectedBeer() {
-        return selectedBeer;
     }
 
     private void setCurrentStatus(boolean refreshing, boolean error) {

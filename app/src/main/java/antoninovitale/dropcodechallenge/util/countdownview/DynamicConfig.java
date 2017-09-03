@@ -496,39 +496,9 @@ public class DynamicConfig {
 
         private Float borderSize;
 
-        public BackgroundInfo setColor(Integer color) {
-            hasData = true;
-            this.color = color;
-            return this;
-        }
-
-        public BackgroundInfo setSize(Float size) {
-            hasData = true;
-            this.size = size;
-            return this;
-        }
-
-        public BackgroundInfo setRadius(Float radius) {
-            hasData = true;
-            this.radius = radius;
-            return this;
-        }
-
         public BackgroundInfo setShowTimeBgDivisionLine(Boolean showTimeBgDivisionLine) {
             hasData = true;
             isShowDivisionLine = showTimeBgDivisionLine;
-            return this;
-        }
-
-        public BackgroundInfo setDivisionLineSize(Float divisionLineSize) {
-            hasData = true;
-            this.divisionLineSize = divisionLineSize;
-            return this;
-        }
-
-        public BackgroundInfo setDivisionLineColor(Integer divisionLineColor) {
-            hasData = true;
-            this.divisionLineColor = divisionLineColor;
             return this;
         }
 
@@ -538,34 +508,34 @@ public class DynamicConfig {
             return this;
         }
 
-        public BackgroundInfo setBorderSize(Float borderSize) {
-            hasData = true;
-            this.borderSize = borderSize;
-            return this;
-        }
-
-        public BackgroundInfo setBorderColor(Integer borderColor) {
-            hasData = true;
-            this.borderColor = borderColor;
-            return this;
-        }
-
-        public BackgroundInfo setBorderRadius(Float borderRadius) {
-            hasData = true;
-            this.borderRadius = borderRadius;
-            return this;
-        }
-
         public Integer getColor() {
             return color;
+        }
+
+        public BackgroundInfo setColor(Integer color) {
+            hasData = true;
+            this.color = color;
+            return this;
         }
 
         public Integer getDivisionLineColor() {
             return divisionLineColor;
         }
 
+        public BackgroundInfo setDivisionLineColor(Integer divisionLineColor) {
+            hasData = true;
+            this.divisionLineColor = divisionLineColor;
+            return this;
+        }
+
         public Float getDivisionLineSize() {
             return divisionLineSize;
+        }
+
+        public BackgroundInfo setDivisionLineSize(Float divisionLineSize) {
+            hasData = true;
+            this.divisionLineSize = divisionLineSize;
+            return this;
         }
 
         public Boolean isShowTimeBgDivisionLine() {
@@ -576,8 +546,20 @@ public class DynamicConfig {
             return radius;
         }
 
+        public BackgroundInfo setRadius(Float radius) {
+            hasData = true;
+            this.radius = radius;
+            return this;
+        }
+
         public Float getSize() {
             return size;
+        }
+
+        public BackgroundInfo setSize(Float size) {
+            hasData = true;
+            this.size = size;
+            return this;
         }
 
         public Boolean isShowTimeBgBorder() {
@@ -588,12 +570,30 @@ public class DynamicConfig {
             return borderColor;
         }
 
+        public BackgroundInfo setBorderColor(Integer borderColor) {
+            hasData = true;
+            this.borderColor = borderColor;
+            return this;
+        }
+
         public Float getBorderSize() {
             return borderSize;
         }
 
+        public BackgroundInfo setBorderSize(Float borderSize) {
+            hasData = true;
+            this.borderSize = borderSize;
+            return this;
+        }
+
         public Float getBorderRadius() {
             return borderRadius;
+        }
+
+        public BackgroundInfo setBorderRadius(Float borderRadius) {
+            hasData = true;
+            this.borderRadius = borderRadius;
+            return this;
         }
     }
 

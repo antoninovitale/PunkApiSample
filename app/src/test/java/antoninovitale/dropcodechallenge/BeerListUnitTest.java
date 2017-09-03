@@ -20,6 +20,9 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+/**
+ * Created by antoninovitale on 02/09/2017.
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class BeerListUnitTest {
 
@@ -53,6 +56,7 @@ public class BeerListUnitTest {
         verify(view, times(1)).setRefreshing(currentStatus.isRefreshing());
         verify(view, never()).showError();
     }
+
     @Test
     public void checkError() {
         CurrentStatus currentStatus = new CurrentStatus(false, true);

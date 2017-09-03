@@ -30,8 +30,6 @@ class BaseCountdown {
 
     Context mContext;
 
-    private String mSuffix;
-
     String mSuffixDay;
 
     String mSuffixHour;
@@ -51,8 +49,6 @@ class BaseCountdown {
 
     Paint mSuffixTextPaint;
 
-    private Paint mMeasureHourWidthPaint;
-
     float mLeftPaddingSize;
 
     float mSuffixDayLeftMargin, mSuffixDayRightMargin;
@@ -70,11 +66,15 @@ class BaseCountdown {
 
     float mTimeTextWidth;
 
-    private float mTimeTextHeight;
-
     float mTimeTextBottom;
 
     int mSuffixGravity;
+
+    private String mSuffix;
+
+    private Paint mMeasureHourWidthPaint;
+
+    private float mTimeTextHeight;
 
     private boolean hasSetSuffixDay, hasSetSuffixHour, hasSetSuffixMinute, hasSetSuffixSecond,
             hasSetSuffixMillisecond;

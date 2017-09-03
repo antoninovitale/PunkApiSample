@@ -33,9 +33,9 @@ public class BeerListPresenterImpl implements BeerListPresenter {
 
     @Override
     public void onChanged(CurrentStatus currentStatus) {
-        if(currentStatus != null) {
+        if (currentStatus != null) {
             view.setRefreshing(currentStatus.isRefreshing());
-            if(currentStatus.isError()) {
+            if (currentStatus.isError()) {
                 view.showError();
             }
         }

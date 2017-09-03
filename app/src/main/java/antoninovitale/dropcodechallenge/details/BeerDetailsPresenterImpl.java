@@ -11,13 +11,13 @@ import antoninovitale.dropcodechallenge.details.section.model.Status;
 /**
  * Created by antoninovitale on 31/08/2017.
  */
-class BeerDetailsPresenterImpl implements BeerDetailsPresenter, BeerDetailsInteractor
+public class BeerDetailsPresenterImpl implements BeerDetailsPresenter, BeerDetailsInteractor
         .OnStatusCheckListener, BeerDetailsInteractor.OnSectionSetupListener {
-    private BeerDetailsView view;
-
     private final BeerDetailsInteractor interactor;
 
-    BeerDetailsPresenterImpl() {
+    private BeerDetailsView view;
+
+    public BeerDetailsPresenterImpl() {
         this.interactor = new BeerDetailsInteractorImpl();
     }
 

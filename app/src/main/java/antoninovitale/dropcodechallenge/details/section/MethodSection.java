@@ -30,18 +30,6 @@ public class MethodSection extends StatelessSection {
 
     private final OnTimeElapsedListener onTimeElapsedListener;
 
-    public interface OnMethodStatusClickListener {
-        void onMethodStatusClick(int position);
-    }
-
-    public interface OnMethodEndListener {
-        void onMethodEnd(int position);
-    }
-
-    public interface OnTimeElapsedListener {
-        void onTimeElapsed(int position, long millis);
-    }
-
     public MethodSection(String title, List<MethodSectionModel> methods,
                          OnMethodStatusClickListener onMethodStatusClickListener,
                          OnMethodEndListener onMethodEndListener, OnTimeElapsedListener
@@ -138,6 +126,18 @@ public class MethodSection extends StatelessSection {
                 onMethodStatusClickListener.onMethodStatusClick(vh.getAdapterPosition());
             }
         });
+    }
+
+    public interface OnMethodStatusClickListener {
+        void onMethodStatusClick(int position);
+    }
+
+    public interface OnMethodEndListener {
+        void onMethodEnd(int position);
+    }
+
+    public interface OnTimeElapsedListener {
+        void onTimeElapsed(int position, long millis);
     }
 
 }

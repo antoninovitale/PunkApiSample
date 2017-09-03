@@ -27,10 +27,6 @@ public class IngredientSection extends StatelessSection {
 
     private final OnIngredientStatusClickListener onIngredientStatusClickListener;
 
-    public interface OnIngredientStatusClickListener {
-        void onStatusClick(int position);
-    }
-
     public IngredientSection(String title, List<IngredientSectionModel> ingredients,
                              OnIngredientStatusClickListener onIngredientStatusClickListener) {
         super(getSectionParameters());
@@ -83,6 +79,10 @@ public class IngredientSection extends StatelessSection {
                 onIngredientStatusClickListener.onStatusClick(holder.getAdapterPosition());
             }
         });
+    }
+
+    public interface OnIngredientStatusClickListener {
+        void onStatusClick(int position);
     }
 
 }

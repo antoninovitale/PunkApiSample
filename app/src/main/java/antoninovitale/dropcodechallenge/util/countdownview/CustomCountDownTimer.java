@@ -24,6 +24,37 @@ abstract class CustomCountDownTimer {
 
     private boolean isPause = false;
 
+    @SuppressLint("HandlerLeak")
+    private final Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            synchronized (CustomCountDownTimer.this) {
+                if (isStop || isPause) {
+                    return;
+                }
+
+                final long millisLeft = mStopTimeInFuture - SystemClock.elapsedRealtime();
+                if (millisLeft <= 0) {
+                    onFinish();
+                } else {
+                    long lastTickStart = SystemClock.elapsedRealtime();
+                    onTick(millisLeft);
+
+                    // take into account user's onTick taking time to execute
+                    long delay = lastTickStart + mCountdownInterval - SystemClock.elapsedRealtime();
+
+                    // special case: user's onTick took more than interval to
+                    // complete, skip to next interval
+                    while (delay < 0) delay += mCountdownInterval;
+
+                    sendMessageDelayed(obtainMessage(MSG), delay);
+                }
+            }
+        }
+    };
+
     CustomCountDownTimer(long millisInFuture, long countDownInterval) {
         if (countDownInterval > 1000) millisInFuture += 15;
         mMillisInFuture = millisInFuture;
@@ -81,36 +112,5 @@ abstract class CustomCountDownTimer {
     public abstract void onTick(long millisUntilFinished);
 
     public abstract void onFinish();
-
-    @SuppressLint("HandlerLeak")
-    private final Handler mHandler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-
-            synchronized (CustomCountDownTimer.this) {
-                if (isStop || isPause) {
-                    return;
-                }
-
-                final long millisLeft = mStopTimeInFuture - SystemClock.elapsedRealtime();
-                if (millisLeft <= 0) {
-                    onFinish();
-                } else {
-                    long lastTickStart = SystemClock.elapsedRealtime();
-                    onTick(millisLeft);
-
-                    // take into account user's onTick taking time to execute
-                    long delay = lastTickStart + mCountdownInterval - SystemClock.elapsedRealtime();
-
-                    // special case: user's onTick took more than interval to
-                    // complete, skip to next interval
-                    while (delay < 0) delay += mCountdownInterval;
-
-                    sendMessageDelayed(obtainMessage(MSG), delay);
-                }
-            }
-        }
-    };
 
 }
