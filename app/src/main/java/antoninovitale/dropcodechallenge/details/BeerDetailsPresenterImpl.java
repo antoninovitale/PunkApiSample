@@ -6,6 +6,7 @@ import antoninovitale.dropcodechallenge.api.model.Beer;
 import antoninovitale.dropcodechallenge.details.section.model.HeaderSectionModel;
 import antoninovitale.dropcodechallenge.details.section.model.IngredientSectionModel;
 import antoninovitale.dropcodechallenge.details.section.model.MethodSectionModel;
+import antoninovitale.dropcodechallenge.details.section.model.Status;
 
 /**
  * Created by antoninovitale on 31/08/2017.
@@ -35,6 +36,20 @@ class BeerDetailsPresenterImpl implements BeerDetailsPresenter, BeerDetailsInter
         interactor.checkIngredientStatus(position, this);
     }
 
+    @Override
+    public void onMethodStatusClick(int position) {
+        interactor.checkMethodStatus(position, this);
+    }
+
+    @Override
+    public void onMethodEnd(int position) {
+        interactor.setMethodDone(position, this);
+    }
+
+    @Override
+    public void onMethodTimeElapsed(int position, long millis) {
+        interactor.setMethodTimeElapsed(position, millis);
+    }
 
     @Override
     public void onMaltDone(int position) {
@@ -44,6 +59,16 @@ class BeerDetailsPresenterImpl implements BeerDetailsPresenter, BeerDetailsInter
     @Override
     public void onHopDone(int position) {
         view.notifyHopDone(position);
+    }
+
+    @Override
+    public void onMethodDone(int position) {
+        view.notifyMethodStatusChanged(position, Status.DONE);
+    }
+
+    @Override
+    public void onMethodStatusChanged(int position, Status status) {
+        view.notifyMethodStatusChanged(position, status);
     }
 
     @Override

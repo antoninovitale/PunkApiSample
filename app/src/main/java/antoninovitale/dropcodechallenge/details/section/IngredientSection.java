@@ -25,18 +25,18 @@ public class IngredientSection extends StatelessSection {
 
     private final String sectionTitle;
 
-    private final OnStatusClickListener onStatusClickListener;
+    private final OnIngredientStatusClickListener onIngredientStatusClickListener;
 
-    public interface OnStatusClickListener {
+    public interface OnIngredientStatusClickListener {
         void onStatusClick(int position);
     }
 
-    public IngredientSection(OnStatusClickListener onStatusClickListener, String title,
-                             List<IngredientSectionModel> ingredients) {
+    public IngredientSection(String title, List<IngredientSectionModel> ingredients,
+                             OnIngredientStatusClickListener onIngredientStatusClickListener) {
         super(getSectionParameters());
         this.ingredients = ingredients;
         this.sectionTitle = title;
-        this.onStatusClickListener = onStatusClickListener;
+        this.onIngredientStatusClickListener = onIngredientStatusClickListener;
     }
 
     private static SectionParameters getSectionParameters() {
@@ -75,18 +75,12 @@ public class IngredientSection extends StatelessSection {
         IngredientSectionViewHolder viewHolder = (IngredientSectionViewHolder) holder;
         viewHolder.name.setText(model.getName());
         viewHolder.amount.setText(model.getAmount());
-        switch (model.getStatus()) {
-            case IDLE:
-                viewHolder.status.setText(viewHolder.idle);
-                break;
-            case DONE:
-                viewHolder.status.setText(viewHolder.done);
-                break;
-        }
+        viewHolder.status.setText(Status.getStatusLabel(model.getStatus(), viewHolder.idle,
+                viewHolder.running, viewHolder.paused, viewHolder.done));
         viewHolder.status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onStatusClickListener.onStatusClick(holder.getAdapterPosition());
+                onIngredientStatusClickListener.onStatusClick(holder.getAdapterPosition());
             }
         });
     }

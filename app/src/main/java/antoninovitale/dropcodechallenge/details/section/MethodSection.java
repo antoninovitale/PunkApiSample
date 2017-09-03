@@ -7,6 +7,7 @@ import java.util.List;
 
 import antoninovitale.dropcodechallenge.R;
 import antoninovitale.dropcodechallenge.details.section.model.MethodSectionModel;
+import antoninovitale.dropcodechallenge.details.section.model.Status;
 import antoninovitale.dropcodechallenge.details.section.viewholder.MethodSectionViewHolder;
 import antoninovitale.dropcodechallenge.details.section.viewholder.SectionTitleViewHolder;
 import antoninovitale.dropcodechallenge.util.countdownview.CountdownView;
@@ -23,16 +24,44 @@ public class MethodSection extends StatelessSection {
 
     private final String sectionTitle;
 
-    public MethodSection(String title, List<MethodSectionModel> methods) {
+    private final OnMethodStatusClickListener onMethodStatusClickListener;
+
+    private final OnMethodEndListener onMethodEndListener;
+
+    private final OnTimeElapsedListener onTimeElapsedListener;
+
+    public interface OnMethodStatusClickListener {
+        void onMethodStatusClick(int position);
+    }
+
+    public interface OnMethodEndListener {
+        void onMethodEnd(int position);
+    }
+
+    public interface OnTimeElapsedListener {
+        void onTimeElapsed(int position, long millis);
+    }
+
+    public MethodSection(String title, List<MethodSectionModel> methods,
+                         OnMethodStatusClickListener onMethodStatusClickListener,
+                         OnMethodEndListener onMethodEndListener, OnTimeElapsedListener
+                                 onTimeElapsedListener) {
         super(getSectionParameters());
         this.sectionTitle = title;
         this.methods = methods;
+        this.onMethodStatusClickListener = onMethodStatusClickListener;
+        this.onMethodEndListener = onMethodEndListener;
+        this.onTimeElapsedListener = onTimeElapsedListener;
     }
 
     private static SectionParameters getSectionParameters() {
         return new SectionParameters.Builder(R.layout.beer_detail_section_method)
                 .headerResourceId(R.layout.simple_header)
                 .build();
+    }
+
+    public void setItemStatus(int position, Status status) {
+        methods.get(position).setStatus(status);
     }
 
     @Override
@@ -64,44 +93,51 @@ public class MethodSection extends StatelessSection {
         long duration = model.getDuration();
         if (duration == 0) {
             vh.timer.setVisibility(View.GONE);
-            vh.status.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View view) {
-                    vh.status.setText(vh.done);
-                }
-            });
         } else {
             vh.timer.setVisibility(View.VISIBLE);
-            vh.timer.updateShow(duration);
+            Status status = model.getStatus();
+            vh.status.setText(Status.getStatusLabel(status, vh.idle, vh.running, vh.paused, vh
+                    .done));
+            switch (status) {
+                case IDLE:
+                    vh.timer.updateShow(duration);
+                    break;
+                case RUNNING:
+                    if (model.getRemainingTime() == 0) {
+                        vh.timer.start(duration);
+                    } else {
+                        vh.timer.start(model.getRemainingTime());
+                    }
+                    break;
+                case PAUSED:
+                    vh.timer.pause();
+                    vh.timer.updateShow(model.getRemainingTime());
+                    break;
+                case DONE:
+                    vh.timer.stop();
+                    break;
+            }
             vh.timer.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
                 @Override
                 public void onEnd(CountdownView cv) {
-                    vh.status.setText(vh.done);
+                    onMethodEndListener.onMethodEnd(vh.getAdapterPosition());
                 }
             });
-            vh.status.setOnClickListener(new View.OnClickListener() {
+            vh.timer.setOnCountdownIntervalListener(1000, new CountdownView
+                    .OnCountdownIntervalListener() {
+
                 @Override
-                public void onClick(View view) {
-                    String status = vh.status.getText().toString();
-                    if (status.equalsIgnoreCase(vh.done)) {
-                        return;
-                    }
-                    if (status.equalsIgnoreCase(vh.idle)) {
-                        vh.timer.start(methods.get(i).getDuration());
-                        vh.status.setText(vh.running);
-                        return;
-                    }
-                    if (vh.timer.isTimerRunning()) {
-                        vh.timer.pause();
-                        vh.status.setText(vh.paused);
-                    } else if (vh.timer.isTimerPaused()) {
-                        vh.timer.restart();
-                        vh.status.setText(vh.running);
-                    }
+                public void onInterval(CountdownView cv, long remainTime) {
+                    onTimeElapsedListener.onTimeElapsed(vh.getAdapterPosition(), remainTime);
                 }
             });
         }
+        vh.status.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onMethodStatusClickListener.onMethodStatusClick(vh.getAdapterPosition());
+            }
+        });
     }
 
 }

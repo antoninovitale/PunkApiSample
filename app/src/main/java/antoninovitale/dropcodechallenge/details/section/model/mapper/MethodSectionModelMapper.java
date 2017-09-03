@@ -9,6 +9,7 @@ import antoninovitale.dropcodechallenge.api.model.MashTemp;
 import antoninovitale.dropcodechallenge.api.model.Method;
 import antoninovitale.dropcodechallenge.api.model.Temp;
 import antoninovitale.dropcodechallenge.details.section.model.MethodSectionModel;
+import antoninovitale.dropcodechallenge.details.section.model.Status;
 
 /**
  * Created by antoninovitale on 30/08/2017.
@@ -22,7 +23,7 @@ public class MethodSectionModelMapper {
             models = new ArrayList<>(mashTemps.size());
             for (MashTemp mashTemp : mashTemps) {
                 MethodSectionModel model = new MethodSectionModel(convertTemp(mashTemp.getTemp())
-                        , TimeUnit.MINUTES.toMillis((long) mashTemp.getDuration()));
+                        , TimeUnit.SECONDS.toMillis((long) mashTemp.getDuration()), Status.IDLE);
                 models.add(model);
             }
         }

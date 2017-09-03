@@ -80,7 +80,7 @@ class BeerDetailsInteractorImpl implements BeerDetailsInteractor {
                         onStatusCheckListener.onMaltDone(positionInSection);
                         break;
                     case HOP:
-                        if (checkHops(hops, model, positionInSection)) {
+                        if (checkHops(model, positionInSection)) {
                             onStatusCheckListener.onHopDone(positionInSection);
                         }
                         break;
@@ -91,8 +91,54 @@ class BeerDetailsInteractorImpl implements BeerDetailsInteractor {
         }
     }
 
-    private boolean checkHops(List<IngredientSectionModel> hops, IngredientSectionModel model,
-                              int positionInSection) {
+    @Override
+    public void checkMethodStatus(int position, OnStatusCheckListener onStatusCheckListener) {
+        int positionInSection = getMethodPositionInSection(position);
+        if (positionInSection < 0 || positionInSection >= methods.size()) {
+            return;
+        }
+        MethodSectionModel model = methods.get(positionInSection);
+        switch (model.getStatus()) {
+            case IDLE:
+                if (model.getDuration() == 0) {
+                    model.setStatus(Status.DONE);
+                } else {
+                    model.setStatus(Status.RUNNING);
+                }
+                break;
+            case RUNNING:
+                model.setStatus(Status.PAUSED);
+                break;
+            case PAUSED:
+                model.setStatus(Status.RUNNING);
+                break;
+            case DONE:
+                return;
+        }
+        methods.set(positionInSection, model);
+        onStatusCheckListener.onMethodStatusChanged(positionInSection, model.getStatus());
+    }
+
+    @Override
+    public void setMethodDone(int position, OnStatusCheckListener onStatusCheckListener) {
+        int positionInSection = getMethodPositionInSection(position);
+        if (positionInSection < 0 || positionInSection >= methods.size()) {
+            return;
+        }
+        methods.get(positionInSection).setStatus(Status.DONE);
+        onStatusCheckListener.onMethodDone(positionInSection);
+    }
+
+    @Override
+    public void setMethodTimeElapsed(int position, long millis) {
+        int positionInSection = getMethodPositionInSection(position);
+        if (positionInSection < 0 || positionInSection >= methods.size()) {
+            return;
+        }
+        methods.get(positionInSection).setRemainingTime(millis);
+    }
+
+    private boolean checkHops(IngredientSectionModel model, int positionInSection) {
         boolean canDo = true;
         switch (model.getAdd()) {
             case START:
@@ -119,6 +165,21 @@ class BeerDetailsInteractorImpl implements BeerDetailsInteractor {
             hops.set(positionInSection, model);
         }
         return canDo;
+    }
+
+    private int getMethodPositionInSection(int position) {
+        int positionInSection;
+        if (malts.isEmpty() && hops.isEmpty()) {
+            positionInSection = position - 2; //headers must be subtracted
+        } else if (malts.isEmpty()) {
+            positionInSection = position - hops.size() - 3; //headers must be subtracted
+        } else if (hops.isEmpty()) {
+            positionInSection = position - malts.size() - 3; //headers must be subtracted
+        } else {
+            positionInSection = position - malts.size() - hops.size() - 4; //headers must be
+            // subtracted
+        }
+        return positionInSection;
     }
 
 }

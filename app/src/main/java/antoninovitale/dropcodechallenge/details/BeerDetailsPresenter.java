@@ -11,4 +11,11 @@ interface BeerDetailsPresenter {
     void onChanged(Beer beer);
 
     void onStatusClick(int position);
+
+    void onMethodStatusClick(int position);
+
+    void onMethodEnd(int position);
+
+    void onMethodTimeElapsed(int position, long millis);
+
 }

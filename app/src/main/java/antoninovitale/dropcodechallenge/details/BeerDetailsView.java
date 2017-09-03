@@ -5,6 +5,7 @@ import java.util.List;
 import antoninovitale.dropcodechallenge.details.section.model.HeaderSectionModel;
 import antoninovitale.dropcodechallenge.details.section.model.IngredientSectionModel;
 import antoninovitale.dropcodechallenge.details.section.model.MethodSectionModel;
+import antoninovitale.dropcodechallenge.details.section.model.Status;
 
 /**
  * Created by antoninovitale on 02/09/2017.
@@ -21,4 +22,6 @@ interface BeerDetailsView {
     void notifyMaltDone(int position);
 
     void notifyHopDone(int position);
+
+    void notifyMethodStatusChanged(int position, Status status);
 }
