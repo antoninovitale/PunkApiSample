@@ -5,7 +5,8 @@ import android.arch.lifecycle.ViewModel;
 /**
  * Created by antoninovitale on 02/09/2017.
  */
-class BeerDetailsViewModel extends ViewModel {
+@SuppressWarnings("WeakerAccess")
+public class BeerDetailsViewModel extends ViewModel {
     private BeerDetailsPresenter presenter;
 
     BeerDetailsPresenter getPresenter() {
