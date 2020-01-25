@@ -1,47 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="left|center"
-              android:orientation="horizontal"
-              android:weightSum="1">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout3"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:layout_weight="0.6"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        tools:text="Extra Pale"/>
+  <TextView
+      android:id="@+id/name"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="@dimen/small_margin"
+      android:layout_marginEnd="@dimen/default_margin"
+      android:ellipsize="end"
+      android:maxLines="3"
+      android:textColor="@color/black"
+      android:textSize="14sp"
+      android:textStyle="bold"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@+id/guideline"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="Extra Pale"
+      />
 
-    <TextView
-        android:id="@+id/amount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:layout_weight="0.4"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:textSize="12sp"
-        android:textStyle="normal"
-        tools:text="5.3 kilograms"/>
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintGuide_percent="0.40"
+      />
 
-    <TextView
-        android:id="@+id/status"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="@string/idle"
-        android:textColor="@color/black"
-        android:textSize="12sp"/>
+  <TextView
+      android:id="@+id/amount"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/default_margin"
+      android:ellipsize="end"
+      android:maxLines="2"
+      android:textSize="12sp"
+      android:textStyle="normal"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@+id/status"
+      app:layout_constraintStart_toEndOf="@+id/guideline"
+      app:layout_constraintTop_toTopOf="@+id/status"
+      tools:text="5.3 kilograms"
+      />
 
-</LinearLayout>
+  <TextView
+      android:id="@+id/status"
+      style="@style/Widget.AppCompat.Button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="@dimen/small_margin"
+      android:ellipsize="end"
+      android:maxLines="1"
+      android:text="@string/idle"
+      android:textColor="@color/black"
+      android:textSize="12sp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@+id/amount"
+      />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

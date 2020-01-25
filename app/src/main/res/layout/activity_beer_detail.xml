@@ -1,51 +1,57 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:fitsSystemWindows="true"
-                                                 tools:context="antoninovitale.dropcodechallenge.details.BeerDetailsActivity"
-                                                 tools:ignore="MergeRootFrame">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".details.BeerDetailsActivity"
+    tools:ignore="MergeRootFrame"
+    >
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
-        android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
+  <com.google.android.material.appbar.AppBarLayout
+      android:id="@+id/app_bar"
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/app_bar_height"
+      android:fitsSystemWindows="true"
+      android:theme="@style/AppTheme.AppBarOverlay"
+      >
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/header_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:collapsedTitleGravity="center_horizontal"
-            app:contentScrim="@color/black_opacity_70"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:titleEnabled="false">
-
-            <ImageView
-                android:id="@+id/imgCover"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@null"
-                android:padding="32dp"
-                android:scaleType="fitCenter"/>
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/beer_detail_container"
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:id="@+id/header_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:collapsedTitleGravity="center_horizontal"
+        app:contentScrim="@color/black_opacity_70"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+        app:titleEnabled="false"
+        >
 
-</android.support.design.widget.CoordinatorLayout>
+      <ImageView
+          android:id="@+id/imgCover"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:contentDescription="@null"
+          android:padding="32dp"
+          android:scaleType="fitCenter"
+          />
+
+      <androidx.appcompat.widget.Toolbar
+          android:id="@+id/toolbar"
+          android:layout_width="match_parent"
+          android:layout_height="?attr/actionBarSize"
+          app:layout_collapseMode="pin"
+          app:popupTheme="@style/AppTheme.PopupOverlay"
+          />
+
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+  </com.google.android.material.appbar.AppBarLayout>
+
+  <androidx.core.widget.NestedScrollView
+      android:id="@+id/beer_detail_container"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layout_behavior="@string/appbar_scrolling_view_behavior"
+      />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
