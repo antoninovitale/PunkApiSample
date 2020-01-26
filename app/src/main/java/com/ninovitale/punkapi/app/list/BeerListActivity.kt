@@ -3,12 +3,12 @@ package com.ninovitale.punkapi.app.list
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.android.material.snackbar.Snackbar
+import com.ninovitale.punkapi.app.BaseActivity
 import com.ninovitale.punkapi.app.R
 import com.ninovitale.punkapi.app.details.BeerDetailsActivity
 import com.ninovitale.punkapi.app.details.BeerDetailsFragment
@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.beer_list.beer_list
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-class BeerListActivity : AppCompatActivity(), BeerListView, OnItemClickListener, OnRefreshListener {
+class BeerListActivity : BaseActivity(), BeerListView, OnItemClickListener, OnRefreshListener {
     private var recyclerViewAdapter: ItemRecyclerViewAdapter? = null
     private var viewModel: BeerProvider? = null
     private var presenter: BeerListPresenter? = null
@@ -62,7 +62,9 @@ class BeerListActivity : AppCompatActivity(), BeerListView, OnItemClickListener,
     }
 
     private fun setupObservers() {
-        viewModel = ViewModelProvider(this).get(BeerProvider::class.java)
+        viewModel = ViewModelProvider(this,
+                baseProvider.provideViewModelSubComponent().viewModelFactory).get(
+                BeerProvider::class.java)
         viewModel?.getBeers()?.observe(this, Observer { beers -> presenter?.onChanged(beers) })
         viewModel?.getCurrentStatus()?.observe(this,
                 Observer { currentStatus -> presenter?.onChanged(currentStatus) })

@@ -58,9 +58,6 @@ dependencies {
   implementation "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle_version"
   kapt "androidx.lifecycle:lifecycle-compiler:$androidx_lifecycle_version"
 
-  implementation "androidx.room:room-runtime:$androidx_room_version"
-  kapt "androidx.room:room-compiler:$androidx_room_version"
-
   api "com.squareup.retrofit2:retrofit:$retrofit_version"
   api "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
   api "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
@@ -76,6 +73,11 @@ dependencies {
   kapt "com.github.bumptech.glide:compiler:$glide_version"
 
   implementation "io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:$sectionedrecyclerviewadapter_version"
+
+  implementation "com.google.dagger:dagger:$dagger_version"
+  implementation "com.google.dagger:dagger-android-support:$dagger_version"
+  kapt "com.google.dagger:dagger-compiler:$dagger_version"
+  implementation "com.google.code.findbugs:jsr305:$findbugs_version"
 
   testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_jupiter_version"
   testImplementation "org.mockito:mockito-core:$mockito_version"

@@ -2,8 +2,8 @@ package com.ninovitale.punkapi.app.details
 
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.ninovitale.punkapi.app.BaseActivity
 import com.ninovitale.punkapi.app.R
 import com.ninovitale.punkapi.app.api.model.Beer
 import com.ninovitale.punkapi.app.list.BeerListActivity
@@ -18,8 +18,7 @@ import kotlinx.android.synthetic.main.activity_beer_detail.toolbar
  * item details are presented side-by-side with a list of items
  * in a [BeerListActivity].
  */
-class BeerDetailsActivity : AppCompatActivity() {
-
+class BeerDetailsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_beer_detail)
@@ -28,7 +27,9 @@ class BeerDetailsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val viewModel: BeerProvider = ViewModelProvider(this).get(BeerProvider::class.java)
+        val viewModel: BeerProvider = ViewModelProvider(this,
+                baseProvider.provideViewModelSubComponent().viewModelFactory).get(
+                BeerProvider::class.java)
         val beer = intent.getSerializableExtra("beer") as? Beer
         if (beer != null) {
             viewModel.setSelectedBeer(beer)
