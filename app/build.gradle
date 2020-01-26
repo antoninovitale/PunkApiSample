@@ -7,15 +7,13 @@ apply plugin: "de.mannodermaus.android-junit5"
 
 android {
   compileSdkVersion compile_sdk_version
-  buildToolsVersion build_tool_version
+  buildToolsVersion build_tools_version
   defaultConfig {
     minSdkVersion min_sdk_version
     targetSdkVersion target_sdk_version
     multiDexEnabled true
     versionCode version_code
     versionName version_name
-
-    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
   buildTypes {
     debug {

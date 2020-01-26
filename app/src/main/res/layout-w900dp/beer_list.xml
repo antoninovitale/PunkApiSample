@@ -29,7 +29,7 @@
       app:layout_constraintEnd_toStartOf="@+id/beer_detail_container"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      tools:context="antoninovitale.punkapi.app.list.BeerListActivity"
+      tools:context="com.ninovitale.punkapi.app.list.BeerListActivity"
       tools:listitem="@layout/beer_list_content"
       />
 

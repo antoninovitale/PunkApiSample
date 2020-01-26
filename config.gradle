@@ -1,7 +1,7 @@
 ext {
   compile_sdk_version = 29
-  build_tool_version = "29.0.2"
-  application_id = "antoninovitale.punkapi.app"
+  build_tools_version = "29.0.2"
+  application_id = "com.ninovitale.punkapi.app"
   min_sdk_version = 21
   target_sdk_version = 29
 
@@ -10,14 +10,14 @@ ext {
 
   //DEPENDENCIES
   dagger_version = '2.25.3'
-  retrofit_version = '2.6.0'
-  okhttp_version = '4.2.2'
+  retrofit_version = '2.7.1'
+  okhttp_version = '4.3.1'
 
   firebase_version = "17.2.1"
   firebase_iid_version = "20.0.2"
   firebase_messaging_version = "20.1.0"
-  moshi_version = "1.8.0"
-  kotshi_version = "2.0.1"
+  moshi_version = '1.9.2'
+  kotshi_version = '2.2.2'
   glide_version = "4.11.0"
   sectionedrecyclerviewadapter_version = "3.1.0"
 
@@ -31,7 +31,7 @@ ext {
   androidx_room_version = "2.2.3"
 
   junit_version = "4.12"
-  junit_jupiter_version = "5.5.2"
-  mockito_version = "3.0.0"
+  junit_jupiter_version = '5.6.0'
+  mockito_version = '3.2.4'
   mockito_kotlin_version = "1.6.0"
 }

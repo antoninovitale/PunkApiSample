@@ -36,7 +36,7 @@
       tools:text="5.8%"
       />
 
-  <antoninovitale.punkapi.app.util.ExpandableTextView
+  <com.ninovitale.punkapi.app.util.ExpandableTextView
       android:id="@+id/description"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
