@@ -15,11 +15,13 @@ import com.ninovitale.punkapi.app.details.BeerDetailsFragment
 import com.ninovitale.punkapi.app.list.adapter.ItemRecyclerViewAdapter
 import com.ninovitale.punkapi.app.list.adapter.ItemRecyclerViewAdapter.OnItemClickListener
 import com.ninovitale.punkapi.app.list.model.IBeerListModel
+import com.ninovitale.punkapi.app.util.MyImageLoader
 import com.ninovitale.punkapi.app.viewmodel.BeerProvider
 import kotlinx.android.synthetic.main.activity_beer_list.swipeRefreshLayout
 import kotlinx.android.synthetic.main.activity_beer_list.toolbar
 import kotlinx.android.synthetic.main.beer_list.beer_detail_container
 import kotlinx.android.synthetic.main.beer_list.beer_list
+import javax.inject.Inject
 
 /**
  * An activity representing a list of Beers. This activity
@@ -32,8 +34,16 @@ import kotlinx.android.synthetic.main.beer_list.beer_list
 class BeerListActivity : BaseActivity(), BeerListView, OnItemClickListener, OnRefreshListener {
     private var recyclerViewAdapter: ItemRecyclerViewAdapter? = null
     private var viewModel: BeerProvider? = null
-    private var presenter: BeerListPresenter? = null
     private var recyclerViewState: Parcelable? = null
+
+    @Inject
+    lateinit var presenter: BeerListPresenter
+
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    internal lateinit var imageLoader: MyImageLoader
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -41,13 +51,14 @@ class BeerListActivity : BaseActivity(), BeerListView, OnItemClickListener, OnRe
     private var mTwoPane: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        baseProvider.provideBeerListSubComponent().inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_beer_list)
-        presenter = BeerListPresenterImpl(this)
         setSupportActionBar(toolbar)
         setupRecyclerView()
         setupObservers()
         swipeRefreshLayout.setOnRefreshListener(this)
+        presenter.setView(this)
         if (beer_detail_container != null) {
             // The detail container view will be present only in the large-screen layouts (res/values-w900dp). If this view is present, then the  activity should be in two-pane mode.
             mTwoPane = true
@@ -57,17 +68,15 @@ class BeerListActivity : BaseActivity(), BeerListView, OnItemClickListener, OnRe
     private fun setupRecyclerView() {
         beer_list.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
                 false)
-        recyclerViewAdapter = ItemRecyclerViewAdapter(this)
+        recyclerViewAdapter = ItemRecyclerViewAdapter(this).also { it.setImageLoader(imageLoader) }
         beer_list.adapter = recyclerViewAdapter
     }
 
     private fun setupObservers() {
-        viewModel = ViewModelProvider(this,
-                baseProvider.provideViewModelSubComponent().viewModelFactory).get(
-                BeerProvider::class.java)
-        viewModel?.getBeers()?.observe(this, Observer { beers -> presenter?.onChanged(beers) })
+        viewModel = ViewModelProvider(this, viewModelFactory).get(BeerProvider::class.java)
+        viewModel?.getBeers()?.observe(this, Observer { beers -> presenter.onChanged(beers) })
         viewModel?.getCurrentStatus()?.observe(this,
-                Observer { currentStatus -> presenter?.onChanged(currentStatus) })
+                Observer { currentStatus -> presenter.onChanged(currentStatus) })
     }
 
     override fun onPause() {
@@ -84,6 +93,7 @@ class BeerListActivity : BaseActivity(), BeerListView, OnItemClickListener, OnRe
 
     override fun onDestroy() {
         swipeRefreshLayout.setOnRefreshListener(null)
+        presenter.dispose()
         super.onDestroy()
     }
 
@@ -108,7 +118,6 @@ class BeerListActivity : BaseActivity(), BeerListView, OnItemClickListener, OnRe
             val previousFragment = supportFragmentManager.findFragmentByTag(BeerDetailsFragment.TAG)
             if (previousFragment != null) {
                 return
-//                supportFragmentManager.beginTransaction().remove(previousFragment).commitNow()
             }
             val fragment = BeerDetailsFragment()
             supportFragmentManager.beginTransaction()
@@ -126,10 +135,10 @@ class BeerListActivity : BaseActivity(), BeerListView, OnItemClickListener, OnRe
     }
 
     override fun onItemClick(position: Int) {
-        presenter?.onListItemClick(position)
+        presenter.onListItemClick(position)
     }
 
     override fun onRefresh() {
-        presenter?.onRefresh()
+        presenter.onRefresh()
     }
 }

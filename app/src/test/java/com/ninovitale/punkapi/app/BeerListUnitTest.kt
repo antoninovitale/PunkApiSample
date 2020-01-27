@@ -6,6 +6,7 @@ import com.ninovitale.punkapi.app.list.BeerListPresenterImpl
 import com.ninovitale.punkapi.app.list.BeerListView
 import com.ninovitale.punkapi.app.list.model.mapper.BeerListModelMapper.convertBeers
 import com.ninovitale.punkapi.app.viewmodel.CurrentStatus
+import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -30,7 +31,13 @@ class BeerListUnitTest {
     @Throws(Exception::class)
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        presenter = BeerListPresenterImpl(view)
+        presenter = BeerListPresenterImpl()
+        presenter.setView(view)
+    }
+
+    @AfterAll
+    fun cleanup() {
+        presenter.dispose()
     }
 
     @Test

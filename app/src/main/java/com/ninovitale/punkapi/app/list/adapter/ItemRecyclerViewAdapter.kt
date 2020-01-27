@@ -22,9 +22,14 @@ import java.util.ArrayList
 class ItemRecyclerViewAdapter(private val onItemClickListener: OnItemClickListener) :
         RecyclerView.Adapter<ItemViewHolder?>() {
     private var items: List<IBeerListModel?>?
+    private var imageLoader: MyImageLoader? = null
 
     init {
         items = ArrayList()
+    }
+
+    fun setImageLoader(imageLoader: MyImageLoader) {
+        this.imageLoader = imageLoader
     }
 
     fun setItems(items: List<IBeerListModel?>?) {
@@ -41,8 +46,7 @@ class ItemRecyclerViewAdapter(private val onItemClickListener: OnItemClickListen
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val beer = getItem(position) ?: return
         holder.itemView.tag = beer
-        MyImageLoader.getInstance()?.loadImage(holder.itemView.context, beer.imageUrl,
-                holder.itemView.img)
+        imageLoader?.loadImage(holder.itemView.context, beer.imageUrl, holder.itemView.img)
         holder.itemView.name.text = beer.name
         holder.itemView.abv.text = beer.abvPercentage
         holder.itemView.tagline.text = beer.tagLine

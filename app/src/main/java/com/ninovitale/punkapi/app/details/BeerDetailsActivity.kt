@@ -11,6 +11,7 @@ import com.ninovitale.punkapi.app.util.MyImageLoader
 import com.ninovitale.punkapi.app.viewmodel.BeerProvider
 import kotlinx.android.synthetic.main.activity_beer_detail.imgCover
 import kotlinx.android.synthetic.main.activity_beer_detail.toolbar
+import javax.inject.Inject
 
 /**
  * An activity representing a single Beer detail screen. This
@@ -19,7 +20,14 @@ import kotlinx.android.synthetic.main.activity_beer_detail.toolbar
  * in a [BeerListActivity].
  */
 class BeerDetailsActivity : BaseActivity() {
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    internal lateinit var imageLoader: MyImageLoader
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        baseProvider.provideBeerDetailsSubComponent().inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_beer_detail)
         setSupportActionBar(toolbar)
@@ -27,13 +35,12 @@ class BeerDetailsActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val viewModel: BeerProvider = ViewModelProvider(this,
-                baseProvider.provideViewModelSubComponent().viewModelFactory).get(
-                BeerProvider::class.java)
+        val viewModel: BeerProvider = ViewModelProvider(this, viewModelFactory)
+                .get(BeerProvider::class.java)
         val beer = intent.getSerializableExtra("beer") as? Beer
         if (beer != null) {
             viewModel.setSelectedBeer(beer)
-            MyImageLoader.getInstance()?.loadImage(this, beer.imageUrl, imgCover)
+            imageLoader.loadImage(this, beer.imageUrl, imgCover)
         }
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity

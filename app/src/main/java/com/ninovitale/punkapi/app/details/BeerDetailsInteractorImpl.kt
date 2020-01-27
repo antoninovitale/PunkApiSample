@@ -22,7 +22,7 @@ import com.ninovitale.punkapi.app.util.Utils
 /**
  * Created by antoninovitale on 01/09/2017.
  */
-internal class BeerDetailsInteractorImpl : BeerDetailsInteractor {
+class BeerDetailsInteractorImpl : BeerDetailsInteractor {
     private var headerSectionModel: HeaderSectionModel? = null
     private var malts: MutableList<IngredientSectionModel>? = null
     private var hops: MutableList<IngredientSectionModel>? = null

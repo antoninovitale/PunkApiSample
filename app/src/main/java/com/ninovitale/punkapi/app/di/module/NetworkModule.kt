@@ -3,6 +3,7 @@ package com.ninovitale.punkapi.app.di.module
 import com.ninovitale.punkapi.app.api.PunkAPI
 import com.ninovitale.punkapi.app.api.PunkService
 import com.ninovitale.punkapi.app.di.subcomponent.NetworkSubComponent
+import com.ninovitale.punkapi.app.util.MyImageLoader
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -17,9 +18,7 @@ object NetworkModule {
     @Provides
     @Singleton
     @JvmStatic
-    fun provideMoshi(): Moshi {
-        return Moshi.Builder().add(ApplicationJsonAdapterFactory.INSTANCE).build()
-    }
+    fun provideMoshi(): Moshi = Moshi.Builder().add(ApplicationJsonAdapterFactory.INSTANCE).build()
 
     @Provides
     @Singleton
@@ -45,9 +44,12 @@ object NetworkModule {
     @Provides
     @Named("base_url")
     @JvmStatic
-    fun provideApiEnvironment(): String {
-        return PunkAPI.API_BASE_URL
-    }
+    fun provideApiEnvironment(): String = PunkAPI.API_BASE_URL
+
+    @Provides
+    @Singleton
+    @JvmStatic
+    fun provideImageLoader(): MyImageLoader = MyImageLoader()
 }
 
 @KotshiJsonAdapterFactory

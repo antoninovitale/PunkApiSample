@@ -5,13 +5,11 @@ import com.ninovitale.punkapi.app.api.PunkAPI
 import com.ninovitale.punkapi.app.viewmodel.BeerProviderFactory
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
-object ViewModelModule {
+object BeerProviderModule {
     @Provides
     @JvmStatic
-    @Singleton
     fun provideViewModelFactory(punkAPI: PunkAPI): ViewModelProvider.Factory = BeerProviderFactory(
             punkAPI)
 }

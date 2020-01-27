@@ -12,4 +12,5 @@ interface BeerDetailsPresenter {
     fun onMethodStatusClick(position: Int)
     fun onMethodEnd(position: Int)
     fun onMethodTimeElapsed(position: Int, millis: Long)
+    fun dispose()
 }

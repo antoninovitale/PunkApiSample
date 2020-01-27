@@ -12,14 +12,10 @@ import com.ninovitale.punkapi.app.details.section.model.Status.DONE
 /**
  * Created by antoninovitale on 31/08/2017.
  */
-class BeerDetailsPresenterImpl : BeerDetailsPresenter, OnStatusCheckListener,
-        OnSectionSetupListener {
-    private val interactor: BeerDetailsInteractor
+class BeerDetailsPresenterImpl(
+        private val interactor: BeerDetailsInteractor
+) : BeerDetailsPresenter, OnStatusCheckListener, OnSectionSetupListener {
     private var view: BeerDetailsView? = null
-
-    init {
-        interactor = BeerDetailsInteractorImpl()
-    }
 
     override fun setView(view: BeerDetailsView?) {
         this.view = view
@@ -58,7 +54,8 @@ class BeerDetailsPresenterImpl : BeerDetailsPresenter, OnStatusCheckListener,
         view?.notifyMethodStatusChanged(positionInSection, globalPosition, DONE)
     }
 
-    override fun onMethodStatusChanged(positionInSection: Int, globalPosition: Int, status: Status) {
+    override fun onMethodStatusChanged(positionInSection: Int, globalPosition: Int,
+            status: Status) {
         view?.notifyMethodStatusChanged(positionInSection, globalPosition, status)
     }
 
@@ -76,5 +73,9 @@ class BeerDetailsPresenterImpl : BeerDetailsPresenter, OnStatusCheckListener,
 
     override fun onMethodsSet(methods: List<MethodSectionModel>) {
         view?.setupMethodSection(methods)
+    }
+
+    override fun dispose() {
+        view = null
     }
 }

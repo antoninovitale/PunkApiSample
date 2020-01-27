@@ -1,5 +1,6 @@
 package com.ninovitale.punkapi.app.details
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ninovitale.punkapi.app.BaseApplicationProvider
 import com.ninovitale.punkapi.app.R
 import com.ninovitale.punkapi.app.R.layout
 import com.ninovitale.punkapi.app.api.model.Beer
@@ -27,6 +29,7 @@ import com.ninovitale.punkapi.app.list.BeerListActivity
 import com.ninovitale.punkapi.app.viewmodel.BeerProvider
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_beer_detail.sections
+import javax.inject.Inject
 
 /**
  * A fragment representing a single Beer detail screen.
@@ -37,7 +40,19 @@ import kotlinx.android.synthetic.main.fragment_beer_detail.sections
 class BeerDetailsFragment : Fragment(), BeerDetailsView, OnIngredientStatusClickListener,
         OnMethodStatusClickListener, OnMethodEndListener, OnTimeElapsedListener {
     private var sectionAdapter: SectionedRecyclerViewAdapter? = null
-    private var presenter: BeerDetailsPresenter? = null
+
+    @Inject
+    internal lateinit var presenter: BeerDetailsPresenter
+
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as BaseApplicationProvider).baseProvider
+                .provideBeerDetailsSubComponent()
+                .inject(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?): View {
@@ -49,6 +64,11 @@ class BeerDetailsFragment : Fragment(), BeerDetailsView, OnIngredientStatusClick
         setupRecyclerView()
     }
 
+    override fun onDestroyView() {
+        presenter.dispose()
+        super.onDestroyView()
+    }
+
     override fun onActivityCreated(@Nullable savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupObservers()
@@ -56,15 +76,9 @@ class BeerDetailsFragment : Fragment(), BeerDetailsView, OnIngredientStatusClick
 
     private fun setupObservers() {
         val activity = activity ?: return
-        val beerDetailsViewModel: BeerDetailsViewModel = ViewModelProvider(activity).get(
-                BeerDetailsViewModel::class.java)
-        if (beerDetailsViewModel.getPresenter() == null) {
-            beerDetailsViewModel.setPresenter(BeerDetailsPresenterImpl())
-        }
-        presenter = beerDetailsViewModel.getPresenter()
-        presenter?.setView(this) //needed to update the new instance after runtime changes
-        val viewModel: BeerProvider = ViewModelProvider(activity).get(BeerProvider::class.java)
-        val beerObserver = Observer<Beer?> { beer -> beer?.let { presenter?.onChanged(it) } }
+        presenter.setView(this) //needed to update the new instance after runtime changes
+        val viewModel = ViewModelProvider(activity, viewModelFactory).get(BeerProvider::class.java)
+        val beerObserver = Observer<Beer?> { beer -> beer?.let { presenter.onChanged(it) } }
         viewModel.getSelectedBeer()?.observe(viewLifecycleOwner, beerObserver)
     }
 
@@ -118,26 +132,27 @@ class BeerDetailsFragment : Fragment(), BeerDetailsView, OnIngredientStatusClick
         sectionAdapter?.notifyItemChanged(globalPosition)
     }
 
-    override fun notifyMethodStatusChanged(positionInSection: Int, globalPosition: Int, status: Status) {
+    override fun notifyMethodStatusChanged(positionInSection: Int, globalPosition: Int,
+            status: Status) {
         val section = sectionAdapter?.getSection(MethodSection.TAG) as MethodSection
         section.setItemStatus(positionInSection, status)
         sectionAdapter?.notifyItemChanged(globalPosition)
     }
 
     override fun onStatusClick(position: Int) {
-        presenter?.onStatusClick(position)
+        presenter.onStatusClick(position)
     }
 
     override fun onMethodStatusClick(position: Int) {
-        presenter?.onMethodStatusClick(position)
+        presenter.onMethodStatusClick(position)
     }
 
     override fun onMethodEnd(position: Int) {
-        presenter?.onMethodEnd(position)
+        presenter.onMethodEnd(position)
     }
 
     override fun onTimeElapsed(position: Int, millis: Long) {
-        presenter?.onMethodTimeElapsed(position, millis)
+        presenter.onMethodTimeElapsed(position, millis)
     }
 
     override fun clearSections() {

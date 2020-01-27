@@ -9,7 +9,7 @@ import com.ninovitale.punkapi.app.details.section.model.Status
 /**
  * Created by antoninovitale on 01/09/2017.
  */
-internal interface BeerDetailsInteractor {
+interface BeerDetailsInteractor {
     fun setupBeer(beer: Beer, onSectionSetupListener: OnSectionSetupListener)
     fun checkIngredientStatus(position: Int, onStatusCheckListener: OnStatusCheckListener)
     fun checkMethodStatus(position: Int, onStatusCheckListener: OnStatusCheckListener)

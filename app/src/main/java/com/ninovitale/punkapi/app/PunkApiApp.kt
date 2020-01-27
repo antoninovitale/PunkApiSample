@@ -3,8 +3,9 @@ package com.ninovitale.punkapi.app
 import android.app.Application
 import com.ninovitale.punkapi.app.di.ApplicationComponent
 import com.ninovitale.punkapi.app.di.DaggerApplicationComponent
+import com.ninovitale.punkapi.app.di.subcomponent.BeerDetailsSubComponent
+import com.ninovitale.punkapi.app.di.subcomponent.BeerListSubComponent
 import com.ninovitale.punkapi.app.di.subcomponent.NetworkSubComponent
-import com.ninovitale.punkapi.app.di.subcomponent.ViewModelSubComponent
 
 class PunkApiApp : Application() {
     override fun onCreate() {
@@ -45,14 +46,19 @@ class BaseApplication private constructor(builder: Builder) : BaseProvider {
         return applicationComponent.networkSubComponentFactory.create()
     }
 
-    override fun provideViewModelSubComponent(): ViewModelSubComponent {
-        return applicationComponent.viewModelSubComponentFactory.create()
+    override fun provideBeerListSubComponent(): BeerListSubComponent {
+        return applicationComponent.beerListSubComponentFactory.create()
+    }
+
+    override fun provideBeerDetailsSubComponent(): BeerDetailsSubComponent {
+        return applicationComponent.beerDetailsSubComponentFactory.create()
     }
 }
 
 interface BaseProvider {
     fun provideNetworkSubComponent(): NetworkSubComponent
-    fun provideViewModelSubComponent(): ViewModelSubComponent
+    fun provideBeerListSubComponent(): BeerListSubComponent
+    fun provideBeerDetailsSubComponent(): BeerDetailsSubComponent
 }
 
 interface BaseApplicationProvider {
